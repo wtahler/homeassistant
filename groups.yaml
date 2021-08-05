@@ -1,0 +1,119 @@
+everyone:
+  name: Everyone
+  entities:
+    - person.bill_tahler
+    - person.cassie
+
+everyoneb:
+  name: Everyone Other
+  entities:
+    - person.bill_work
+    - person.cassie
+
+motionsensors:
+  name: All motion sensors
+  entities:
+    - binary_sensor.picam_motion
+    - binary_sensor.kitchen_motion_sensor_ias_zone
+    - binary_sensor.bedroom
+    - binary_sensor.den
+    - binary_sensor.play_room
+    - binary_sensor.thermostat
+
+doorsensors:
+  name: All door sensors
+  entities:
+    - binary_sensor.front_door
+    - binary_sensor.outside_garage_door_sensor
+    - binary_sensor.sliding_door_sensor
+
+garagedoors:
+  name: All garage doors
+  entities:
+    - cover.van_garage_door
+    - cover.shop_door
+    - cover.gym_garage_door
+
+alldownon:
+  name: All downstairs on
+  all: true
+  entities:
+    - switch.entry_lamps
+    - switch.desk_lamp
+    - light.downstairs_sconces
+    - light.tv_room_ceiling_lights
+    - light.entry_chandelier
+    - light.fireplace
+    - light.high_floodlights
+    - light.kitchen_hanging_lights
+    - light.nook_lights
+    - light.play_room_ceiling_lights
+    - switch.dining_room_chandelier
+    - switch.entry_lamps
+    - switch.kitchen_counter_lights
+    - switch.kitchen_spotlights
+    - switch.couch_light_strip
+    - light.fireplace_lights
+
+alldownoff:
+  name: All downstairs off
+  entities:
+    - switch.entry_lamps
+    - switch.kitchen_spotlights
+    - switch.desk_lamp
+    - light.downstairs_sconces
+    - light.tv_room_ceiling_lights
+    - light.entry_chandelier
+    - light.fireplace
+    - light.high_floodlights
+    - light.kitchen_hanging_lights
+    - light.nook_lights
+    - light.play_room_ceiling_lights
+    - switch.dining_room_chandelier
+    - switch.entry_lamps
+    - switch.kitchen_counter_lights
+    - switch.couch_light_strip
+    - light.fireplace_lights
+
+kitchenon:
+  name: All kitchen lights on
+  all: true
+  entities:
+    - light.kitchen_hanging_lights
+    - switch.kitchen_counter_lights
+    - switch.kitchen_spotlights
+
+kitchenoff:
+  name: All kitchen lights off
+  entities:
+    - light.kitchen_hanging_lights
+    - switch.kitchen_counter_lights
+    - switch.kitchen_spotlights
+
+alllightsoff:
+  name: All off
+  entities:
+    - switch.bathroom_lights
+    - switch.desk_lamp
+    - switch.deck_lights
+    - switch.gable_lights
+    - switch.garage_lights
+    - switch.ceiling_fan
+    - switch.shop_driveway_lights
+    - switch.bedroom_lamps
+    - switch.driveway_lights
+    - switch.entry_lamps
+    - light.downstairs_sconces
+    - light.bedroom_sconces
+    - light.tv_room_ceiling_lights
+    - light.entry_chandelier
+    - light.fireplace_lights
+    - light.high_floodlights
+    - light.kitchen_hanging_lights
+    - light.nook_lights
+    - light.play_room_ceiling_lights
+    - switch.dining_room_chandelier
+    - switch.entry_lamps
+    - switch.kitchen_spotlights
+    - switch.kitchen_counter_lights
+    - switch.couch_light_strip

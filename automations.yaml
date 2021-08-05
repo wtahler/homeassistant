@@ -1,0 +1,919 @@
+- id: '12432533'
+  alias: Monitor Cassie button
+  trigger:
+  - event_data:
+      command: button_single
+      device_ieee: 28:6d:97:00:01:03:80:97
+    event_type: zha_event
+    platform: event
+  - event_data:
+      command: button_double
+      device_ieee: 28:6d:97:00:01:03:80:97
+    event_type: zha_event
+    platform: event
+  - event_data:
+      command: button_hold
+      device_ieee: 28:6d:97:00:01:03:80:97
+    event_type: zha_event
+    platform: event
+  condition: []
+  action:
+    service: mqtt.publish
+    data_template:
+      topic: buttons/pressed/cassieButton
+      payload: '{{trigger.event.data[''command'']}}
+
+        '
+- id: 12432dfdsa533
+  alias: Monitor Bill button
+  trigger:
+  - event_data:
+      command: button_single
+      device_ieee: 28:6d:97:00:01:03:80:89
+    event_type: zha_event
+    platform: event
+  - event_data:
+      command: button_double
+      device_ieee: 28:6d:97:00:01:03:80:89
+    event_type: zha_event
+    platform: event
+  - event_data:
+      command: button_hold
+      device_ieee: 28:6d:97:00:01:03:80:89
+    event_type: zha_event
+    platform: event
+  condition: []
+  action:
+    service: mqtt.publish
+    data_template:
+      topic: buttons/pressed/billButton
+      payload: '{{trigger.event.data[''command'']}}'
+- id: '1600105804396'
+  alias: IFTTT webhook received
+  description: this takes the info from a webhook from IFTT and processes it.
+  trigger:
+  - event_data:
+      action: call_service
+    event_type: ifttt_webhook_received
+    platform: event
+  condition: []
+  action:
+  - data_template:
+      entity_id: '{{ trigger.event.data.entity_id }}'
+    service_template: '{{ trigger.event.data.service }}'
+  mode: single
+- id: '1600108412129'
+  alias: unlock front door
+  description: this will unlock the front door based on the toggle
+  trigger:
+  - entity_id: input_boolean.front_door_lock
+    from: 'on'
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - data:
+      event: unlock_door
+    service: ifttt.trigger
+  mode: single
+- id: '1600108549415'
+  alias: lock front door
+  description: ''
+  trigger:
+  - entity_id: input_boolean.front_door_lock
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      event: lock_door
+    service: ifttt.trigger
+  mode: single
+- id: '1600109365241'
+  alias: lock front door when going away or night mode
+  description: ''
+  trigger:
+  - entity_id: input_select.mode
+    platform: state
+    to: away
+  - entity_id: input_select.mode
+    platform: state
+    to: night
+  condition: []
+  action:
+  - data: {}
+    entity_id: input_boolean.front_door_lock
+    service: input_boolean.turn_on
+  mode: single
+- id: '1600114475460'
+  alias: open blinds at sunrise
+  description: ''
+  trigger:
+  - event: sunrise
+    platform: sun
+  condition: []
+  action:
+  - data: {}
+    entity_id: cover.blinds_window_covering
+    service: cover.open_cover
+  mode: single
+- id: '1600114513596'
+  alias: close blinds at sunset
+  description: ''
+  trigger:
+  - event: sunset
+    platform: sun
+  condition: []
+  action:
+  - data: {}
+    entity_id: cover.blinds_window_covering
+    service: cover.close_cover
+  mode: single
+- id: '1600114632203'
+  alias: set mode to away when everyone leaves
+  description: ''
+  trigger:
+  - entity_id: group.everyone
+    for: 00:00:06
+    from: home
+    platform: state
+    to: not_home
+  condition: []
+  action:
+  - data:
+      option: away
+    entity_id: input_select.mode
+    service: input_select.select_option
+  - data:
+      message: everyone is gone
+    service: notify.mobile_app_pixel_3
+  - service: light.turn_off
+    target:
+      entity_id: light.all_lights
+  - service: notify.mobile_app_bill_work_pixel
+    data:
+      message: turned off all lights, everyone left
+  mode: single
+- id: '1600114781047'
+  alias: set mode to home when anyone returns
+  description: ''
+  trigger:
+  - entity_id: group.everyone
+    for: 0:00:06
+    from: not_home
+    platform: state
+    to: home
+  condition:
+  - condition: state
+    entity_id: input_select.mode
+    state: away
+  action:
+  - data:
+      option: home
+    entity_id: input_select.mode
+    service: input_select.select_option
+  - data:
+      message: someone came home
+    service: notify.mobile_app_pixel_3
+  - data: {}
+    entity_id: alarm_control_panel.home_alarm
+    service: alarm_control_panel.alarm_disarm
+  - service: notify.mobile_app_bill_work_pixel
+    data:
+      message: somone came home
+  - service: light.turn_on
+    target:
+      entity_id: light.downstairs_lights
+    data:
+      brightness_pct: 100
+  mode: single
+- alias: Trigger alarm while armed away
+  id: '23546986'
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.empty_garage_door_sensor
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.front_door
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.outside_garage_door_sensor
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.sliding_door_sensor
+    to: 'on'
+  - platform: state
+    entity_id: cover.shop_door
+    to: open
+  - platform: state
+    entity_id: cover.van_garage_door_barrier_state_label
+    to: open
+  - platform: state
+    entity_id: binary_sensor.picam_motion
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.kitchen_motion_sensor_ias_zone
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.bedroom_occupancy
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.den_occupancy
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.play_room_occupancy
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.thermostat_occupancy
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: alarm_control_panel.home_alarm
+    state: armed_away
+  action:
+    service: alarm_control_panel.alarm_trigger
+    entity_id: alarm_control_panel.home_alarm
+- alias: Send notification when alarm triggered
+  id: '342355565'
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.home_alarm
+    to: triggered
+  action:
+  - service: notify.mobile_app_pixel_3
+    data:
+      message: ALARM! The alarm has been triggered
+- alias: Send notification when alarm is Armed in Away mode
+  id: '235659699'
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.home_alarm
+    to: armed_away
+  action:
+  - service: notify.mobile_app_pixel_3
+    data_template:
+      message: The alarm is armed in Away mode {{ states('sensor.date_time') }}
+- alias: Send notification when alarm is Disarmed
+  id: '5696969332'
+  trigger:
+  - platform: state
+    entity_id: alarm_control_panel.home_alarm
+    to: disarmed
+  action:
+  - service: notify.mobile_app_pixel_3
+    data_template:
+      message: The alarm is Disarmed at {{ states('sensor.date_time') }}
+- id: '1600220713742'
+  alias: tv mode when harmony hub on
+  description: ''
+  trigger:
+  - entity_id: remote.harmony_hub
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - scene: scene.watching_tv
+  - condition: state
+    entity_id: person.bill_tahler
+    state: home
+  - service: notify.mobile_app_pixel_3
+    data:
+      message: Activate TV scene?
+      data:
+        tag: bill
+        actions:
+        - action: tvscene
+          title: 'Yes'
+  - service: script.reset_bill_notification
+    data: {}
+  mode: single
+- id: '1600286895079'
+  alias: 1 goodnight nfc tag
+  description: nfc tag 1
+  trigger:
+  - event_data:
+      tag_id: 57853ca7-66c9-466a-9525-38148d018967
+    event_type: tag_scanned
+    platform: event
+  condition: []
+  action:
+  - data: {}
+    entity_id: input_boolean.goodnight
+    service: input_boolean.turn_on
+  mode: single
+- id: '1600287562682'
+  alias: 2 tv scene nfc tag
+  description: nfc tag 2
+  trigger:
+  - event_data:
+      tag_id: a1b5e982-e018-470b-a566-ec47b5f0f000
+    event_type: tag_scanned
+    platform: event
+  condition: []
+  action:
+  - scene: scene.watching_tv
+  mode: single
+- id: '1600287764389'
+  alias: 3 start coffee maker nfc tag
+  description: nfc tag 3
+  trigger:
+  - event_data:
+      tag_id: 47999221-974f-4be7-9e3e-4a0ebe988bf2
+    event_type: tag_scanned
+    platform: event
+  condition: []
+  action:
+  - data: {}
+    entity_id: input_boolean.coffee_maker
+    service: input_boolean.turn_on
+  mode: single
+- id: '1600287892869'
+  alias: 4 turn on downstairs lights nfc tag
+  description: tag 4
+  trigger:
+  - event_data:
+      tag_id: 44d2e117-5e1e-4660-bb9b-7722ffe78f4b
+    event_type: tag_scanned
+    platform: event
+  condition: []
+  action:
+  - service: input_boolean.turn_on
+    target:
+      entity_id: input_boolean.down_lights_on
+  mode: single
+- id: '1600298723692'
+  alias: 5 open blinds
+  description: tag 5
+  trigger:
+  - event_data:
+      tag_id: 1e09a367-63e1-4463-8971-db1de7c7b24f
+    event_type: tag_scanned
+    platform: event
+  condition: []
+  action:
+  - data: {}
+    entity_id: cover.blinds_window_covering
+    service: cover.open_cover
+  mode: single
+- id: '1600298852787'
+  alias: 6 close blinds
+  description: tag 6
+  trigger:
+  - event_data:
+      tag_id: ece84c13-3fe4-4a62-aa93-ec840916a934
+    event_type: tag_scanned
+    platform: event
+  condition: []
+  action:
+  - data: {}
+    entity_id: cover.blinds_window_covering
+    service: cover.close_cover
+  mode: single
+- alias: Motioneye - piCam - Motion started
+  trigger:
+    platform: webhook
+    webhook_id: motioneye-picam-started
+  action:
+    service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.picam_motion_detected
+  id: 0b95e8fab2b24f3bade9c2406ae08849
+- alias: Motioneye - piCam - Motion ended
+  trigger:
+    platform: webhook
+    webhook_id: motioneye-picam-ended
+  action:
+    service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.picam_motion_detected
+  id: 46fcbb676ea64d7188f1b16009018c8b
+- alias: Enable motion detection
+  trigger:
+  - platform: state
+    entity_id: input_boolean.picam_control
+    to: 'on'
+  action:
+    service: rest_command.camera_motion_start
+  id: cf9c8cb48a8848a8bd99ec4691ea947c
+- alias: Disable motion detection
+  trigger:
+  - platform: state
+    entity_id: input_boolean.picam_control
+    to: 'off'
+  action:
+    service: rest_command.camera_motion_pause
+  id: b34efac466d64ece83ccefb7d1bde9d4
+- id: '1600841143732'
+  alias: close van door from automation
+  description: ''
+  trigger:
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: closevan
+  condition: []
+  action:
+  - service: cover.close_cover
+    data: {}
+    target:
+      entity_id:
+      - cover.van_garage_door
+  - service: notify.mobile_app_pixel_3
+    data:
+      message: clear_notification
+      data:
+        tag: vannotify
+  - service: notify.mobile_app_cassie_pixel_3
+    data:
+      message: clear_notification
+      data:
+        tag: vannotify
+  - service: notify.mobile_app_bill_work_pixel
+    data:
+      message: clear_notification
+      data:
+        tag: vannotify
+  mode: single
+- id: '1600841187631'
+  alias: close shop door from notification
+  description: ''
+  trigger:
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: closeshop
+  condition: []
+  action:
+  - service: cover.close_cover
+    data: {}
+    entity_id: cover.shop_door
+  - service: notify.mobile_app_pixel_3
+    data:
+      message: clear_notification
+      data:
+        tag: shopnotify
+  mode: single
+- id: '1601127551763'
+  alias: clear notification when shop door closes
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: cover.shop_door
+    from: open
+    to: closed
+  condition: []
+  action:
+  - service: notify.mobile_app_pixel_3
+    data:
+      message: clear_notification
+      data:
+        tag: shopnotify
+  mode: single
+- id: '1601127622158'
+  alias: clear notification when van door closes
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: cover.van_garage_door
+    from: open
+    to: closed
+  condition: []
+  action:
+  - service: notify.mobile_app_pixel_3
+    data:
+      message: clear_notification
+      data:
+        tag: vannotify
+  - service: notify.mobile_app_cassie_pixel_3
+    data:
+      message: clear_notification
+      data:
+        tag: vannotify
+  - service: notify.mobile_app_bill_work_pixel
+    data:
+      message: clear_notification
+      data:
+        tag: vannotify
+  mode: single
+- id: '1601385890307'
+  alias: tvscene from notification
+  description: ''
+  trigger:
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: tvscene
+  condition: []
+  action:
+  - scene: scene.watching_tv
+  - service: notify.mobile_app_pixel_3
+    data:
+      message: clear_notification
+      data:
+        tag: bill
+  mode: single
+- id: '1607918730101'
+  alias: turn on entry lamps in morning
+  description: ''
+  trigger:
+  - platform: time
+    at: 05:00
+  condition: []
+  action:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.entry_lamps, switch.inside_christmas_1, switch.inside_christmas_2
+  mode: single
+- id: '1622679409590'
+  alias: turn on downstairs lights
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.down_lights_on
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: homeassistant.turn_on
+    entity_id: group.alldownon
+  - service: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.down_lights_on
+  - service: light.turn_on
+    target:
+      entity_id: light.downstairs_lights
+    data:
+      brightness_pct: 100
+  mode: single
+- id: '1622687684520'
+  alias: turn off downstairs lights group
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.down_lights_off
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+  - service: homeassistant.turn_off
+    target:
+      entity_id: group.alldownoff
+  - service: input_boolean.turn_on
+    target:
+      entity_id: input_boolean.down_lights_off
+  mode: single
+- id: '1622688790409'
+  alias: turn off kitchen lights
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.kitchen_off
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+  - service: homeassistant.turn_off
+    target:
+      entity_id: group.kitchenoff
+  - service: input_boolean.turn_on
+    target:
+      entity_id: input_boolean.kitchen_off
+  mode: single
+- id: '1622688834959'
+  alias: turn kitchen lights on
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.kitchen_on
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: homeassistant.turn_on
+    target:
+      entity_id: group.kitchenon
+  - service: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.kitchen_on
+  - service: light.turn_on
+    data:
+      brightness_pct: 100
+    target:
+      entity_id: light.kitchen_lights
+  mode: single
+- id: '1622693701189'
+  alias: bedroom fan timer
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: switch.bedroom_fan
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - delay:
+      hours: 5
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: switch.turn_off
+    target:
+      entity_id: switch.bedroom_fan
+  mode: single
+- id: '1622695212600'
+  alias: turn off all lights
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.goodnight
+    from: 'off'
+    to: 'on'
+  condition: []
+  action:
+  - service: homeassistant.turn_off
+    target:
+      entity_id: group.alllightsoff
+  - service: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.goodnight
+  mode: single
+- id: '1624293890984'
+  alias: update locations when garage door opens
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.doorsensors
+    from: 'off'
+    for: 00:00:01
+  - platform: state
+    entity_id: group.garagedoors
+    from: closed
+    for: 00:00:01
+  condition:
+  - condition: state
+    entity_id: input_select.mode
+    state: away
+  action:
+  - service: notify.mobile_app_cassie_pixel_3
+    data:
+      message: request_location_update
+  - service: notify.mobile_app_pixel_3
+    data:
+      message: request_location_update
+  - service: notify.mobile_app_bill_work_pixel
+    data:
+      message: request_location_update
+  mode: single
+- id: '1625667646836'
+  alias: mode to home in morning
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.bill_work_pixel_is_charging
+    from: 'true'
+    to: 'false'
+  - platform: state
+    entity_id: binary_sensor.pixel_3_is_charging
+    from: 'true'
+    to: 'false'
+  condition:
+  - condition: time
+    after: 04:00:00
+    before: 08:00:00
+  action:
+  - service: input_select.select_option
+    target:
+      entity_id: input_select.mode
+    data:
+      option: home
+  mode: single
+- id: '1626576729738'
+  alias: telegram dad if his server is offline
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.jim_home_assistant_status
+    from: 'off'
+    to: 'on'
+    for: 00:00:30
+  condition:
+  - condition: state
+    entity_id: switch.jim_reboot
+    state: 'off'
+  action:
+  - service: notify.tgramdad
+    data:
+      message: Bill's home assistant cannot reach your home assistant via http request
+  - service: notify.tgrambill
+    data:
+      message: Dad's server is down
+  mode: single
+- id: '1626577253905'
+  alias: notify bill if karen's HA is down
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.karen_home_assistant_status
+    from: 'off'
+    to: 'on'
+    for: 00:00:30
+  condition:
+  - condition: state
+    entity_id: switch.karen_reboot
+    state: 'off'
+  action:
+  - service: notify.tgrambill
+    data:
+      message: Karen's server is offline
+  mode: single
+- id: '1626751334708'
+  alias: trigger reboot
+  description: ''
+  trigger:
+  - platform: event
+    event_type: homeassistant_stop
+  condition: []
+  action:
+  - service: switch.turn_on
+    target:
+      entity_id: switch.bill_reboot
+  mode: single
+- id: '1626785620153'
+  alias: reset karen reboot switch
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.karen_home_assistant_status
+    from: 'on'
+    to: 'off'
+    for: 00:00:05
+  condition: []
+  action:
+  - service: switch.turn_off
+    target:
+      entity_id: switch.karen_reboot
+  mode: single
+- id: '1626785646883'
+  alias: reset jim reboot switch
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.jim_home_assistant_status
+    from: 'on'
+    to: 'off'
+    for: 00:00:05
+  condition: []
+  action:
+  - service: switch.turn_off
+    target:
+      entity_id: switch.jim_reboot
+  mode: single
+- id: '1626813565886'
+  alias: notify if jim server reboot too long
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: switch.jim_reboot
+    to: 'on'
+    for: 00:05:00
+  condition: []
+  action:
+  - service: notify.tgrambill
+    data:
+      message: jim server reboot taking too long
+  - service: notify.tgramdad
+    data:
+      message: your HA server has been rebooting a very long time
+  mode: single
+- id: '1626813639378'
+  alias: notify if karen server stuck rebooting
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: switch.karen_reboot
+    to: 'on'
+    for: 00:05:00
+  condition: []
+  action:
+  - service: notify.tgrambill
+    data:
+      message: karen reboot taking too long
+  mode: single
+- id: '1626897711862'
+  alias: open garage door when home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: person.bill_tahler
+    to: home
+    for: 00:00:05
+    id: billhome
+  - platform: state
+    entity_id: person.cassie
+    to: home
+    for: 00:00:05
+    id: cassiehome
+  condition:
+  - condition: or
+    conditions:
+    - condition: and
+      conditions:
+      - condition: trigger
+        id: billhome
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: sensor.pixel_3_bluetooth_connection
+          attribute: connected_paired_devices
+          state: '[D4:4D:A4:1B:AD:1A]'
+        - condition: state
+          entity_id: sensor.bill_work_pixel_charger_type
+          state: wired
+    - condition: and
+      conditions:
+      - condition: trigger
+        id: cassiehome
+      - condition: state
+        entity_id: sensor.cassie_pixel_3_bluetooth_connection
+        state: '[D4:4D:A4:1B:AD:1A]'
+        attribute: connected_paired_devices
+  action:
+  - service: cover.open_cover
+    target:
+      entity_id: cover.shop_door
+  mode: single
+- id: '1626961055265'
+  alias: test the bluetooth conn
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: light.desk_lamp
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: template
+    value_template: '{{ ''D4:4D:A4:1B:AD:1A'' in states.sensor.cassie_pixel_3_bluetooth_connection.attributes.connected_paired_devices
+      }}
+
+      '
+  action:
+  - service: notify.tgrambill
+    data:
+      message: worked
+  mode: single
+- id: core_update_available
+  alias: Core Update Available
+  initial_state: true
+  trigger:
+    platform: template
+    value_template: '{{ states(''sensor.sys_version_core_latest'') != states(''sensor.sys_version_core_installed'')
+      }}'
+  action:
+    service: notify.tgrambill
+    data_template:
+      title: '*Information*'
+      message: An update for Home Assistant is available. You are running {{states('sensor.sys_version_core_installed')
+        }}, the latest version is {{ states('sensor.sys_version_core_latest') }}.
+- id: supervisor_update_available
+  alias: Supervisor Update Available
+  initial_state: true
+  trigger:
+    platform: template
+    value_template: '{{ states(''sensor.sys_version_supervisor_latest'') != states(''sensor.sys_version_supervisor_installed'')
+      }}'
+  action:
+    service: notify.tgrambill
+    data_template:
+      title: '*Information*'
+      message: An update for Home Assistant Supervisor is available. You are running
+        {{states('sensor.sys_version_supervisor_installed') }}, the latest version
+        is {{ states('sensor.sys_version_supervisor_latest') }}.
+- id: '1627586126328'
+  alias: periodic shopping list sync
+  description: ''
+  trigger:
+  - platform: time_pattern
+    minutes: /5
+  condition: []
+  action:
+  - service: google_keep.sync_shopping_list
+    data:
+      title: shopping list
+  mode: single
+- id: '1627589355534'
+  alias: add list items
+  description: ''
+  trigger:
+  - platform: event
+    event_type: shopping_list_updated
+    event_data:
+      action: add
+  condition: []
+  action:
+  - service: google_keep.add_to_list
+    data:
+      title: shopping list
+      things: '{{ trigger.event.data.item.name }}'
+  mode: single

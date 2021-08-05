@@ -1,0 +1,58 @@
+reset_bill_notification:
+  alias: reset bill notification
+  sequence:
+  - delay: 00:00:60
+  - service: notify.mobile_app_pixel_3
+    data:
+      message: clear_notification
+      data:
+        tag: bill
+  mode: single
+timer_notify:
+  alias: timer notify
+  sequence:
+  - service: notify.mobile_app_pixel_3
+    data:
+      message: '{{ as_timestamp(now() + timedelta(minutes=5)) | round() }}'
+      data:
+        chronometer: true
+        when: '{{ as_timestamp(now() + timedelta( minutes = 5 )) | round() }}'
+  mode: single
+notify_bill:
+  alias: notify bill
+  sequence:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: sensor.pixel_3_sim_1
+        state: Mint
+      sequence:
+      - service: notify.mobile_app_pixel_3
+        data:
+          message: message
+          title: title
+          data:
+            tag:
+    - conditions:
+      - condition: state
+        entity_id: sensor.bill_work_pixel_sim_1
+        state: Mint
+      sequence:
+      - service: notify.mobile_app_bill_work_pixel
+        data:
+          message: message
+          title: title
+          data:
+            tag: tag
+            actions:
+            - action: action
+              title: action
+    default: []
+  mode: single
+test_telegram:
+  alias: test telegram
+  sequence:
+  - service: notify.tgrambill
+    data:
+      message: this is a test
+  mode: single

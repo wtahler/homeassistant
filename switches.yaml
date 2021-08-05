@@ -1,0 +1,90 @@
+- platform: switchbot
+  mac: "E2:F1:A2:AF:E3:FA"
+  name: "Coffee Maker Pusher"
+
+- platform: wake_on_lan
+  name: "unraid wakeup"
+  mac: "1c:6f:65:9f:f4:81"
+  host: "192.168.86.31"
+  broadcast_address: "192.168.86.255"
+  turn_off:
+    service: shell_command.turn_off_unraid
+
+- platform: mqtt
+  name: "Bill Reboot"
+  payload_off: "off"
+  payload_on: "on"
+  state_topic: "wtahlerhass/reboot"
+  optimistic: true
+  command_topic: "wtahlerhass/reboot"
+
+- platform: mqtt
+  name: "Jim Reboot"
+  payload_off: "off"
+  payload_on: "on"
+  command_topic: "jtahlerhass/reboot"
+  optimistic: true
+  state_topic: "jtahlerhass/reboot"
+
+- platform: mqtt
+  name: "Karen Reboot"
+  payload_off: "off"
+  payload_on: "on"
+  optimistic: true
+  command_topic: "kchass/reboot"
+  state_topic: "kchass/reboot"
+
+- platform: template
+  switches:
+    down_on:
+      value_template: "{{ states('input_boolean.down_lights_on') }}"
+      friendly_name: "Downstairs lights on"
+      turn_on:
+        - service: input_boolean.turn_on
+          entity_id: input_boolean.down_lights_on
+      turn_off:
+        - service: input_boolean.turn_on
+          entity_id: input_boolean.down_lights_on
+    kitchen_on:
+      value_template: "{{ states('input_boolean.kitchen_on') }}"
+      friendly_name: "Kitchen lights on"
+      turn_on:
+        - service: input_boolean.turn_on
+          entity_id: input_boolean.kitchen_on
+      turn_off:
+        - service: input_boolean.turn_on
+          entity_id: input_boolean.kitchen_on
+    kitchen_off:
+      value_template: "{{ states('input_boolean.kitchen_off') }} "
+      friendly_name: "Kitchen lights off"
+      turn_on:
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.kitchen_off
+      turn_off:
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.kitchen_off
+    down_off:
+      value_template: "{{ states('input_boolean.down_lights_off') }}"
+      friendly_name: "Downstairs lights off"
+      turn_off:
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.down_lights_off
+      turn_on:
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.down_lights_off
+    front_door_locker:
+      value_template: "{{ states('input_boolean.front_door_lock') }}"
+      turn_on:
+        - service: input_boolean.turn_on
+          entity_id: input_boolean.front_door_lock
+      turn_off:
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.front_door_lock
+    noise_machine:
+      value_template: "{{ states('input_boolean.noise_machine') }}"
+      turn_on:
+        - service: input_boolean.turn_on
+          entity_id: input_boolean.noise_machine
+      turn_off:
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.noise_machine

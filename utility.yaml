@@ -1,0 +1,151 @@
+desk_lamp_daily_energy:
+  source: sensor.desk_lamp_energy
+  cycle: daily
+desk_lamp_monthly_energy:
+  source: sensor.desk_lamp_energy
+  cycle: monthly
+total_home_15min_energy:
+  source: sensor.total_home_energy
+  cycle: quarter-hourly
+total_home_daily_energy:
+  source: sensor.total_home_energy
+  cycle: daily
+total_home_monthly_energy:
+  source: sensor.total_home_energy
+  cycle: monthly
+ceiling_fan_daily_energy:
+  source: sensor.ceiling_fan_energy
+  cycle: daily
+ceiling_fan_monthly_energy:
+  source: sensor.ceiling_fan_energy
+  cycle: monthly
+tv_room_ceiling_lights_monthly_energy:
+  source: sensor.tv_room_ceiling_lights_energy
+  cycle: monthly
+tv_room_ceiling_lights_daily_energy:
+  source: sensor.tv_room_ceiling_lights_energy
+  cycle: daily
+bathroom_lights_monthly_energy:
+  source: sensor.bathroom_lights_energy
+  cycle: monthly
+bathroom_lights_daily_energy:
+  source: sensor.bathroom_lights_energy
+  cycle: daily
+backyard_lights_monthly_energy:
+  source: sensor.backyard_lights_energy
+  cycle: monthly
+backyard_lights_daily_energy:
+  source: sensor.backyard_lights_energy
+  cycle: daily
+bedroom_lights_monthly_energy:
+  source: sensor.bedroom_lights_energy
+  cycle: monthly
+bedroom_lights_daily_energy:
+  source: sensor.bedroom_lights_energy
+  cycle: daily
+deck_lights_monthly_energy:
+  source: sensor.deck_lights_energy
+  cycle: monthly
+deck_lights_daily_energy:
+  source: sensor.deck_lights_energy
+  cycle: daily
+dining_room_chandelier_monthly_energy:
+  source: sensor.dining_room_chandelier_energy
+  cycle: monthly
+dining_room_chandelier_daily_energy:
+  source: sensor.dining_room_chandelier_energy
+  cycle: daily
+entry_lamps_monthly_energy:
+  source: sensor.entry_lamps_energy
+  cycle: monthly
+entry_lamps_daily_energy:
+  source: sensor.entry_lamps_energy
+  cycle: daily
+gable_lights_monthly_energy:
+  source: sensor.gable_lights_energy
+  cycle: monthly
+gable_lights_daily_energy:
+  source: sensor.gable_lights_energy
+  cycle: daily
+garage_lights_monthly_energy:
+  source: sensor.garage_lights_energy
+  cycle: monthly
+garage_lights_daily_energy:
+  source: sensor.garage_lights_energy
+  cycle: daily
+kitchen_counter_lights_monthly_energy:
+  source: sensor.kitchen_counter_lights_energy
+  cycle: monthly
+kitchen_counter_lights_daily_energy:
+  source: sensor.kitchen_counter_lights_energy
+  cycle: daily
+kitchen_spotlights_monthly_energy:
+  source: sensor.kitchen_spotlights_energy
+  cycle: monthly
+kitchen_spotlights_daily_energy:
+  source: sensor.kitchen_spotlights_energy
+  cycle: daily
+shop_driveway_lights_monthly_energy:
+  source: sensor.shop_driveway_lights_energy
+  cycle: monthly
+shop_driveway_lights_daily_energy:
+  source: sensor.shop_driveway_lights_energy
+  cycle: daily
+downstairs_sconces_monthly_energy:
+  source: sensor.downstairs_sconces_energy
+  cycle: monthly
+downstairs_sconces_daily_energy:
+  source: sensor.downstairs_sconces_energy
+  cycle: daily
+entry_chandelier_monthly_energy:
+  source: sensor.entry_chandelier_energy
+  cycle: monthly
+entry_chandelier_daily_energy:
+  source: sensor.entry_chandelier_energy
+  cycle: daily
+fireplace_lights_monthly_energy:
+  source: sensor.fireplace_lights_energy
+  cycle: monthly
+fireplace_lights_daily_energy:
+  source: sensor.fireplace_lights_energy
+  cycle: daily
+high_floodlights_monthly_energy:
+  source: sensor.high_floodlights_energy
+  cycle: monthly
+high_floodlights_daily_energy:
+  source: sensor.high_floodlights_energy
+  cycle: daily
+kitchen_hanging_lights_monthly_energy:
+  source: sensor.kitchen_hanging_lights_energy
+  cycle: monthly
+kitchen_hanging_lights_daily_energy:
+  source: sensor.kitchen_hanging_lights_energy
+  cycle: daily
+nook_lights_monthly_energy:
+  source: sensor.nook_lights_energy
+  cycle: monthly
+nook_lights_daily_energy:
+  source: sensor.nook_lights_energy
+  cycle: daily
+playroom_ceiling_lights_monthly_energy:
+  source: sensor.playroom_ceiling_lights_energy
+  cycle: monthly
+playroom_ceiling_lights_daily_energy:
+  source: sensor.playroom_ceiling_lights_energy
+  cycle: daily
+upstairs_sconces_monthly_energy:
+  source: sensor.upstairs_sconces_energy
+  cycle: monthly
+upstairs_sconces_daily_energy:
+  source: sensor.upstairs_sconces_energy
+  cycle: daily
+bedroom_sconces_monthly_energy:
+  source: sensor.bedroom_sconces_energy
+  cycle: monthly
+bedroom_sconces_daily_energy:
+  source: sensor.bedroom_sconces_energy
+  cycle: daily
+# home_daily_energy:
+#   source: >
+#     {{ states('sensor.backyar_lights_energy') + states('sensor.bathroom_lights_energy') + states('sensor.bedroom_lamps_energy') + states('sensor.bedroom_sconces_energy') + states('sensor.ceiling_fan_energy') + states('sensor.deck_lights_energy') + states('sensor.desk_lamp_energy') + states('sensor.dining_room_chandelier_energy') + states('sensor.downstairs_sconces_energy') + states('sensor.entry_chandelier_energy') + states('sensor.entry_lamps_energy') + states('sensor.fireplace_lights_energy') + states('sensor.gable_lights_energy') + states('sensor.garage_lights_energy') + states('sensor.high_floodlights_energy') + states('sensor.kitchen_counter_lights_energy') + states('sensor.kitchen_hanging_lights_energy') + states('sensor.kitchen_spotlights_energy') + states('sensor.nook_lights_energy') + states('sensor.playroom_ceiling_lights_energy') + states('sensor.shop_driveway_lights_energy') + states('sensor.tv_room_ceiling_lights_energy') + states('sensor.upstairs_sconces_energy') }}
+#   cycle: daily

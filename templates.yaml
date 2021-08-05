@@ -1,0 +1,291 @@
+- sensor:
+    - name: "Desk Lamp Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.desk_lamp', 'on') %}
+          19
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Ceiling Fan Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('switch.ceiling_fan', 'on') %}
+          50
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "TV Room Ceiling Lights Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.tv_room_ceiling_lights','on') %}
+          {% set brightness = states.light.tv_room_ceiling_lights.attributes.brightness | int %}
+          {{ 30 * (brightness | float / 255) | round(2) }}
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Bathroom Lights Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.bathroom_lights', 'on') %}
+          90
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Backyard Lights Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.backyard_lights', 'on') %}
+          10
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Bedroom Lamps Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.bedroom_lamps', 'on') %}
+          17
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Deck Lights Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.deck_lights', 'on') %}
+          10
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Dining Room Chandelier Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.dining_room_chandelier', 'on') %}
+          40
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Driveway Lights Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.driveway_lights', 'on') %}
+          200
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Entry Lamps Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.entry_lamps', 'on') %}
+          20
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Gable Lights Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.gable_lights', 'on') %}
+          40
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Garage Lights Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.garage_lights', 'on') %}
+          124
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Kitchen Counter Lights Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.kitchen_counter_lights', 'on') %}
+          15
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Kitchen Spotlights Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.kitchen_spotlights', 'on') %}
+          25
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Shop Driveway Lights Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.shop_driveway_lights', 'on') %}
+          200
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Downstairs Sconces Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.downstairs_sconces','on') %}
+          {% set brightness = states.light.downstairs_sconces.attributes.brightness | int %}
+          {{ 10 * (brightness | float / 255) | round(2) }}
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Entry Chandelier Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.entry_chandelier','on') %}
+          {% set brightness = states.light.entry_chandelier.attributes.brightness | int %}
+          {{ 25 * (brightness | float / 255) | round(2) }}
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Fireplace Lights Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.fireplace_lights','on') %}
+          {% set brightness = states.light.fireplace_lights.attributes.brightness | int %}
+          {{ 15 * (brightness | float / 255) | round(2) }}
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "High Floodlights Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.high_floodlights','on') %}
+          {% set brightness = states.light.high_floodlights.attributes.brightness | int %}
+          {{ 25 * (brightness | float / 255) | round(2) }}
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Kitchen Hanging Lights Power"
+      unit_of_measurement: "W" 
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.kitchen_hanging_lights','on') %}
+          {% set brightness = states.light.kitchen_hanging_lights.attributes.brightness | int %}
+          {{ 30 * (brightness | float / 255) | round(2) }}
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Nook Lights Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.nook_lights','on') %}
+          {% set brightness = states.light.nook_lights.attributes.brightness | int %}
+          {{ 20 * (brightness | float / 255) | round(2) }}
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Playroom Ceiling Lights Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.play_room_ceiling_lights','on') %}
+          {% set brightness = states.light.play_room_ceiling_lights.attributes.brightness | int %}
+          {{ 20 * (brightness | float / 255) | round(2) }}
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Upstairs Sconces Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.upstairs_sconces','on') %}
+          {% set brightness = states.light.upstairs_sconces.attributes.brightness | int %}
+          {{ 18 * (brightness | float / 255) | round(2) }}
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Bedroom Sconces Power"
+      unit_of_measurement: "W"
+      device_class: "power"
+      state_class: "measurement"
+      state: >
+        {% if is_state('light.bedroom_sconces','on') %}
+          {% set brightness = states.light.bedroom_sconces.attributes.brightness | int %}
+          {{ 90 * (brightness | float / 255) | round(2) }}
+        {% else %}
+          0
+        {% endif %}
+
+    - name: "Outside Air Temperature"
+      unit_of_measurement: "Â°F"
+      state_class: "measurement"
+      state: "{{ states.weather.thermostat.attributes.temperature }}"
+      
+    - name: "sys_version_host_installed"
+      state: "{{state_attr('sensor.sys_version_core_installed','hassos')}}"
+      
+    - name: "sys_version_host_latest"
+      state: "{{state_attr('sensor.sys_version_core_latest','hassos')}}"
+      
+    - name: "sys_version_supervisor_installed"
+      state: "{{state_attr('sensor.sys_version_core_installed','supervisor')}}"
+      
+    - name: "sys_version_supervisor_latest"
+      state: "{{state_attr('sensor.sys_version_core_latest','supervisor')}}"

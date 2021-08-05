@@ -1,0 +1,203 @@
+- platform: integration
+  source: sensor.desk_lamp_power
+  name: desk lamp energy
+  unit_prefix: k
+  round: 2
+  
+- platform: integration
+  source: sensor.power_home_123_1min
+  name: total home energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.ceiling_fan_power
+  name: ceiling fan energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.tv_room_ceiling_lights_power
+  name: tv room ceiling lights energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.bathroom_lights_power
+  name: bathroom lights energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.backyard_lights_power
+  name: backyard lights energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.bedroom_lamps_power
+  name: bedroom lamps energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.deck_lights_power
+  name: deck lights energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.dining_room_chandelier_power
+  name: dining room chandelier energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.entry_lamps_power
+  name: entry lamps energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.gable_lights_power
+  name: gable lights energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.garage_lights_power
+  name: garage lights energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.kitchen_counter_lights_power
+  name: kitchen counter lights energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.kitchen_spotlights_power
+  name: kitchen spotlights energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.shop_driveway_lights_power
+  name: shop driveway lights energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.downstairs_sconces_power
+  name: downstairs sconces energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.entry_chandelier_power
+  name: entry chandelier energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.fireplace_lights_power
+  name: fireplace lights energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.high_floodlights_power
+  name: high floodlights energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.kitchen_hanging_lights_power
+  name: kitchen hanging lights energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.nook_lights_power
+  name: nook lights energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.playroom_ceiling_lights_power
+  name: playroom ceiling lights energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.upstairs_sconces_power
+  name: upstairs sconces energy
+  unit_prefix: k
+  round: 2
+
+- platform: integration
+  source: sensor.bedroom_sconces_power
+  name: bedroom sconces energy
+  unit_prefix: k
+  round: 2
+
+- name: sys_version_core_installed
+  platform: command_line
+  command: 'curl http://supervisor/info -H "Authorization: Bearer $(printenv SUPERVISOR_TOKEN)" | jq ".data"' 
+  #    scan_interval: 3600
+  value_template: "{{ value_json.homeassistant }}"
+  json_attributes:
+    - hassos
+    - supervisor
+
+- name: sys_version_core_latest
+  platform: version
+  beta: false
+  image: raspberrypi4-64
+  source: hassio
+
+- name: sys_version_addons
+  platform: command_line
+  command: 'curl http://supervisor/supervisor/info -H "Authorization: Bearer $(printenv SUPERVISOR_TOKEN)" | jq ''{"addons":[.data.addons[] | select(.version != .installed)]}'''
+#    scan_interval: 3600
+  value_template: "{{ value_json.addons | length }}"
+  json_attributes:
+    - addons
+    
+# - platform: template
+  # sensors:
+    # sys_version_host_installed:
+      # value_template: "{{state_attr('sensor.sys_version_core_installed','hassos')}}"
+    # sys_version_host_latest:
+      # value_template: "{{state_attr('sensor.sys_version_core_latest','hassos')}}"
+    # sys_version_supervisor_installed:
+      # value_template: "{{state_attr('sensor.sys_version_core_installed','supervisor')}}"
+    # sys_version_supervisor_latest:
+      # value_template: "{{state_attr('sensor.sys_version_core_latest','supervisor')}}"
+
+
+- platform: command_line
+  name: CPU Temperature
+  command: "cat /sys/class/thermal/thermal_zone1/temp"
+  # If errors occur, make sure configuration file is encoded as UTF-8
+  unit_of_measurement: "°F"
+  value_template: "{{ value | multiply(0.0018) | round(1) + 32 }}"
+
+- platform: systemmonitor
+  resources:
+    - type: disk_use_percent
+      arg: /
+    - type: memory_use_percent
+    - type: network_in
+      arg: eth0
+    - type: network_out
+      arg: eth0
+    - type: load_1m
+    - type: load_5m
+    - type: load_15m
+    - type: processor_use
+    - type: throughput_network_in
+      arg: eth0
+    - type: throughput_network_out
+      arg: eth0

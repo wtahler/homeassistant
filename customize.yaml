@@ -1,0 +1,4 @@
+person.bill_tahler:
+  entity_picture: /local/bill.jpg
+zone.home:
+  radius: 300

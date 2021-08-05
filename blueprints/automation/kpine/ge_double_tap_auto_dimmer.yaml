@@ -1,0 +1,69 @@
+blueprint:
+  name: GE Light Switch Double Taps with Auto Brightness
+  description: Auto-dim GE light switches that support double taps.
+  domain: automation
+  input:
+    device:
+      name: Light Switch Device
+      description: A GE light switch that supports double taps.
+      selector:
+        device:
+          integration: zwave_js
+          manufacturer: GE/Jasco
+          entity:
+            domain: light
+    light:
+      name: Light Entity
+      description: The light entity to auto-dim, usually the entity associated with
+        the device.
+      selector:
+        entity:
+          integration: zwave_js
+          domain: light
+    off_brightness:
+      name: Off Brightness
+      description: The brightness to set for a double tap off.
+      default: 25
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          unit_of_measurement: '%'
+          mode: slider
+          step: 1.0
+    on_brightness:
+      name: On Brightness
+      description: The brightness to set for a double tap on.
+      default: 100
+      selector:
+        number:
+          min: 0.0
+          max: 100.0
+          unit_of_measurement: '%'
+          mode: slider
+          step: 1.0
+  source_url: https://gist.github.com/kpine/b9a195088098090002cb4999678965c1
+mode: single
+max_exceeded: silent
+trigger:
+  platform: event
+  event_type: zwave_js_value_notification
+  event_data:
+    device_id: !input 'device'
+    command_class: 32
+action:
+- variables:
+    value: '{{ trigger.event.data.value_raw }}'
+- choose:
+  - conditions: '{{ value == 0 }}'
+    sequence:
+    - service: light.turn_on
+      data:
+        entity_id: !input 'light'
+        brightness_pct: !input 'off_brightness'
+  - conditions: '{{ value == 255 }}'
+    sequence:
+    - service: light.turn_on
+      data:
+        entity_id: !input 'light'
+        brightness_pct: !input 'on_brightness'

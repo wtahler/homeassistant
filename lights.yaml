@@ -1,0 +1,110 @@
+- platform: switch
+  name: Kitchen Counter Lights
+  entity_id: switch.kitchen_counter_lights
+
+- platform: switch
+  name: Kitchen Spotlights
+  entity_id: switch.kitchen_spotlights
+
+- platform: switch
+  name: Backyard Lights
+  entity_id: switch.backyard_lights
+
+- platform: switch
+  name: Bathroom Lights
+  entity_id: switch.bathroom_lights
+
+- platform: switch
+  name: Bedroom Lamps
+  entity_id: switch.bedroom_lamps
+
+- platform: switch
+  name: Couch Light Strip
+  entity_id: switch.couch_light_strip
+
+- platform: switch
+  name: Deck Lights
+  entity_id: switch.deck_lights
+
+- platform: switch
+  name: Desk Lamp
+  entity_id: switch.desk_lamp
+
+- platform: switch
+  name: Dining Room Chandelier
+  entity_id: switch.dining_room_chandelier
+
+- platform: switch
+  name: Driveway Lights
+  entity_id: switch.driveway_lights
+
+- platform: switch
+  name: Entry Lamps
+  entity_id: switch.entry_lamps
+
+- platform: switch
+  name: Gable Lights
+  entity_id: switch.gable_lights
+
+- platform: switch
+  name: Garage Lights
+  entity_id: switch.garage_lights
+
+- platform: switch
+  name: Shop Driveway Lights
+  entity_id: switch.shop_driveway_lights
+
+- platform: group
+  name: Kitchen Lights
+  unique_id: kitchenlights
+  entities:
+    - light.kitchen_hanging_lights
+    - light.kitchen_counter_lights
+    - light.kitchen_spotlights
+
+- platform: group
+  name: Downstairs Lights
+  unique_id: downstairslights
+  entities:
+    - light.entry_lamps
+    - light.desk_lamp
+    - light.downstairs_sconces
+    - light.entry_chandelier
+    - light.fireplace_lights
+    - light.high_floodlights
+    - light.kitchen_hanging_lights
+    - light.nook_lights
+    - light.tv_room_ceiling_lights
+    - light.play_room_ceiling_lights
+    - light.dining_room_chandelier
+    - light.entry_lamps
+    - light.kitchen_counter_lights
+    - light.kitchen_spotlights
+    - light.couch_light_strip
+
+- platform: group
+  name: All Lights
+  unique_id: alllights
+  entities:
+    - light.bathroom_lights
+    - light.desk_lamp
+    - light.gable_lights
+    - light.garage_lights
+    - light.tv_room_ceiling_lights
+    - light.shop_driveway_lights
+    - light.bedroom_lamps
+    - light.driveway_lights
+    - light.entry_lamps
+    - light.downstairs_sconces
+    - light.bedroom_sconces
+    - light.entry_chandelier
+    - light.fireplace_lights
+    - light.high_floodlights
+    - light.kitchen_hanging_lights
+    - light.nook_lights
+    - light.play_room_ceiling_lights
+    - light.dining_room_chandelier
+    - light.entry_lamps
+    - light.kitchen_spotlights
+    - light.kitchen_counter_lights
+    - light.couch_light_strip

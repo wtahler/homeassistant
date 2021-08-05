@@ -1,0 +1,147 @@
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+sensor: !include sensors.yaml
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+switch: !include switches.yaml
+light: !include lights.yaml
+template: !include templates.yaml
+
+homeassistant:
+  customize: !include customize.yaml
+
+frontend:
+  themes: !include themes.yaml
+
+utility_meter: !include utility.yaml
+
+rest_command:
+  camera_motion_start:
+    url: "http://192.168.86.43:7999/1/detection/start"
+  camera_motion_pause:
+    url: "http://192.168.86.43:7999/1/detection/pause"
+
+ifttt:
+  key: !secret iftt_password
+
+binary_sensor:
+  - platform: mqtt
+    state_topic: "jtahlerhass/status"
+    payload_off: "on"
+    payload_on: "off"
+    device_class: problem
+    name: "Jim Home Assistant Status"
+  - platform: mqtt
+    state_topic: "kchass/status"
+    payload_off: "on"
+    payload_on: "off"
+    device_class: problem
+    name: "Karen Home Assistant Status"
+
+shell_command:
+  update_ha: ha core update
+  turn_off_unraid: "ssh -i /config/wtahlerKey root@192.168.86.31 bash /boot/config/sleep.sh"
+
+device_tracker:
+  - platform: ping
+    hosts:
+      billphone_ping: 192.168.86.12
+      cassiepersonal_ping: 192.168.86.57
+      cassiework_ping: 192.168.86.20
+
+alarm_control_panel:
+  - platform: manual
+    name: Home Alarm
+    arming_time: 30
+    delay_time: 20
+    trigger_time: 4
+    disarmed:
+      trigger_time: 0
+    armed_home:
+      arming_time: 0
+      delay_time: 0
+
+notify:
+  - platform: html5
+    name: html5notifier
+    vapid_email: "firebase-adminsdk-h3dks@html5-push-notifier.iam.gserviceaccount.com"
+    vapid_pub_key: "BMDOLlXgZdPodZYdt83ZrdYs405ja9EaRfzIarWFN96MnOIa2C5vpDQdXq4NzT1yw-MHpiHHuT6z_SpxPCr2_RU"
+    vapid_prv_key: !secret vprivkey
+  - platform: telegram
+    name: tgrambill
+    chat_id: !secret bill_chat_id
+  - platform: telegram
+    name: tgramdad
+    chat_id: !secret jim_chat_id
+
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 127.0.0.1
+    - ::1
+    - 172.30.33.0/24
+
+google_assistant:
+  project_id: mysmarthome-288213
+  service_account: !include SERVICE_ACCOUNT.JSON
+  report_state: true
+  secure_devices_pin: !secret googlepin
+  exposed_domains:
+    - switch
+    - light
+    - fan
+  entity_config:
+    switch.playroom_blinds_1a481500_on_off:
+      expose: false
+    light.green_light:
+      expose: false
+
+recorder:
+  #  db_url: "mysql://homeassistant:ilGT2012@192.168.86.58:3306/homeassistant?charset=utf8mb4"
+  db_url: !secret mysqldb
+  purge_keep_days: 180
+
+influxdb:
+  host: a0d7b954-influxdb
+  port: 8086
+  max_retries: 3
+  username: "homeassistant"
+  password: !secret influxdbpass
+  database: "homeassistant"
+  precision: "s"
+
+google_keep:
+  username: wtahler@gmail.com
+  password: !secret google_keep_pass
+  list_name: "shopping list"
+
+telegram_bot:
+  - platform: polling
+    api_key: !secret tgram_key
+    allowed_chat_ids:
+      - !secret bill_chat_id
+      - !secret jim_chat_id
+
+mqtt:
+  broker: tahlerwireguard.duckdns.org
+  certificate: auto
+  port: 8883
+  username: hamqtt
+  password: !secret mqtt_password
+  birth_message:
+    topic: "wtahlerhass/status"
+    payload: "on"
+  will_message:
+    topic: "wtahlerhass/status"
+    payload: "off"
+
+duckdns:
+  access_token: !secret duck_token
+  domain: tahler.duckdns.org
