@@ -1,0 +1,16 @@
+!*.yaml
+!.gitignore
+!*.md
+
+secrets.yaml
+home-assistant.log
+html5_push_registrations.conf
+known_devices.yaml
+SERVICE_ACCOUNT.JSON
+wtahlerKey
+ip_bans.yaml
+
+.storage
+.cloud
+.google.token
+.ssh

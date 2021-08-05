@@ -47,7 +47,7 @@ binary_sensor:
 
 shell_command:
   update_ha: ha core update
-  turn_off_unraid: "ssh -i /config/wtahlerKey root@192.168.86.31 bash /boot/config/sleep.sh"
+  turn_off_unraid: "ssh -i /config/.ssh/wtahlerKey root@192.168.86.31 bash /boot/config/sleep.sh"
 
 device_tracker:
   - platform: ping
