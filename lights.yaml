@@ -1,4 +1,8 @@
 - platform: switch
+  name: Guest Room Lamp
+  entity_id: switch.guest_room_lamp
+
+- platform: switch
   name: Kitchen Counter Lights
   entity_id: switch.kitchen_counter_lights
 

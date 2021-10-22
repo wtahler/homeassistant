@@ -165,9 +165,14 @@
     platform: state
     to: home
   condition:
-  - condition: state
-    entity_id: input_select.mode
-    state: away
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: vacation
+    - condition: state
+      entity_id: input_select.mode
+      state: away
   action:
   - data:
       option: home
@@ -536,16 +541,19 @@
     to: 'on'
   condition: []
   action:
-  - service: homeassistant.turn_on
-    entity_id: group.alldownon
-  - service: input_boolean.turn_off
-    target:
-      entity_id: input_boolean.down_lights_on
   - service: light.turn_on
     target:
       entity_id: light.downstairs_lights
     data:
-      brightness_pct: 100
+      brightness: 255
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 10
+      milliseconds: 0
+  - service: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.down_lights_on
   mode: single
 - id: '1622687684520'
   alias: turn off downstairs lights group
@@ -557,9 +565,14 @@
     to: 'off'
   condition: []
   action:
-  - service: homeassistant.turn_off
+  - service: light.turn_off
     target:
-      entity_id: group.alldownoff
+      entity_id: light.downstairs_lights
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 10
+      milliseconds: 0
   - service: input_boolean.turn_on
     target:
       entity_id: input_boolean.down_lights_off
@@ -597,11 +610,6 @@
   - service: input_boolean.turn_off
     target:
       entity_id: input_boolean.kitchen_on
-  - service: light.turn_on
-    data:
-      brightness_pct: 100
-    target:
-      entity_id: light.kitchen_lights
   mode: single
 - id: '1622693701189'
   alias: bedroom fan timer
@@ -623,7 +631,7 @@
       entity_id: switch.bedroom_fan
   mode: single
 - id: '1622695212600'
-  alias: turn off all lights
+  alias: goodnight mode on
   description: ''
   trigger:
   - platform: state
@@ -635,9 +643,21 @@
   - service: homeassistant.turn_off
     target:
       entity_id: group.alllightsoff
-  - service: input_boolean.turn_off
+  - service: switch.turn_on
     target:
-      entity_id: input_boolean.goodnight
+      entity_id: switch.noise_machine
+  - service: cover.set_cover_position
+    target:
+      entity_id:
+      - cover.big_bedroom_curtains
+      - cover.small_bedroom_curtains
+    data:
+      position: 100
+  - service: input_select.select_option
+    target:
+      entity_id: input_select.mode
+    data:
+      option: night
   mode: single
 - id: '1624293890984'
   alias: update locations when garage door opens
@@ -665,29 +685,6 @@
   - service: notify.mobile_app_bill_work_pixel
     data:
       message: request_location_update
-  mode: single
-- id: '1625667646836'
-  alias: mode to home in morning
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.bill_work_pixel_is_charging
-    from: 'true'
-    to: 'false'
-  - platform: state
-    entity_id: binary_sensor.pixel_3_is_charging
-    from: 'true'
-    to: 'false'
-  condition:
-  - condition: time
-    after: 04:00:00
-    before: 08:00:00
-  action:
-  - service: input_select.select_option
-    target:
-      entity_id: input_select.mode
-    data:
-      option: home
   mode: single
 - id: '1626576729738'
   alias: telegram dad if his server is offline
@@ -902,18 +899,192 @@
     data:
       title: shopping list
   mode: single
-- id: '1627589355534'
-  alias: add list items
+- id: '1628948258302'
+  alias: lights from bedroom door
   description: ''
   trigger:
-  - platform: event
-    event_type: shopping_list_updated
-    event_data:
-      action: add
+  - platform: state
+    entity_id: binary_sensor.bedroom_door_ias_zone
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: light.downstairs_lights
+    state: 'off'
+  - condition: state
+    entity_id: input_select.mode
+    state: night
+  action:
+  - service: light.turn_on
+    target:
+      entity_id:
+      - light.upstairs_sconces
+      - light.tv_room_ceiling_lights
+      - light.play_room_ceiling_lights
+    data:
+      brightness: 1
+  - wait_for_trigger:
+    - platform: state
+      entity_id: binary_sensor.bedroom_door_ias_zone
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 1
+        milliseconds: 0
+      to: 'off'
+    continue_on_timeout: false
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - service: light.turn_off
+    target:
+      entity_id:
+      - light.upstairs_sconces
+      - light.play_room_ceiling_lights
+      - light.tv_room_ceiling_lights
+  mode: restart
+- id: '1630758732226'
+  alias: notify bill if karen's HA comes back
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.karen_home_assistant_status
+    from: 'on'
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
   condition: []
   action:
-  - service: google_keep.add_to_list
+  - service: notify.tgrambill
     data:
-      title: shopping list
-      things: '{{ trigger.event.data.item.name }}'
+      message: Karen's server is back up
+  mode: single
+- id: '1630758801237'
+  alias: notify if jim server is back
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.jim_home_assistant_status
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+    from: 'on'
+  condition: []
+  action:
+  - service: notify.tgrambill
+    data:
+      message: jim server is back
+  - service: notify.tgramdad
+    data:
+      message: your HA server is back
+  mode: single
+- id: '1632496248674'
+  alias: downstairs lights in morning
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_select.mode
+    from: night
+    to: home
+  condition: []
+  action:
+  - service: light.turn_on
+    target:
+      entity_id:
+      - light.desk_lamp
+      - light.kitchen_counter_lights
+      - light.play_room_ceiling_lights
+      - light.entry_lamps
+    data:
+      brightness: 1
+  mode: single
+- id: '1633981916173'
+  alias: goodnight mode off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.goodnight
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+  - service: switch.turn_off
+    target:
+      entity_id: switch.noise_machine
+  - service: cover.set_cover_position
+    target:
+      entity_id:
+      - cover.big_bedroom_curtains
+      - cover.small_bedroom_curtains
+    data:
+      position: 0
+  - service: light.turn_on
+    target:
+      entity_id:
+      - light.downstairs_sconces
+      - light.play_room_ceiling_lights
+      - light.kitchen_counter_lights
+      - light.desk_lamp
+    data:
+      brightness_pct: 40
+  - service: input_select.select_option
+    target:
+      entity_id: input_select.mode
+    data:
+      option: home
+  mode: single
+- id: '1634091573145'
+  alias: turn off vents in morning
+  description: ''
+  trigger:
+  - platform: time
+    at: 04:00:00
+  condition: []
+  action:
+  - service: switch.turn_off
+    target:
+      entity_id:
+      - switch.luke_vent
+      - switch.graham_vent
+  mode: single
+- id: '1634091617389'
+  alias: turn on vents later
+  description: ''
+  trigger:
+  - platform: time
+    at: 07:00:00
+  condition: []
+  action:
+  - service: switch.turn_on
+    target:
+      entity_id:
+      - switch.luke_vent
+      - switch.graham_vent
+  mode: single
+- id: '1634091828297'
+  alias: mode to vacation when gone a long time
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_select.mode
+    to: away
+    for:
+      hours: 6
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  condition: []
+  action:
+  - service: input_select.select_option
+    target:
+      entity_id: input_select.mode
+    data:
+      option: vacation
   mode: single

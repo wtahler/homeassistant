@@ -13,6 +13,7 @@ scene: !include scenes.yaml
 switch: !include switches.yaml
 light: !include lights.yaml
 template: !include templates.yaml
+binary_sensor: !include binarysensors.yaml
 
 homeassistant:
   customize: !include customize.yaml
@@ -23,31 +24,81 @@ frontend:
 utility_meter: !include utility.yaml
 
 rest_command:
-  camera_motion_start:
-    url: "http://192.168.86.43:7999/1/detection/start"
-  camera_motion_pause:
-    url: "http://192.168.86.43:7999/1/detection/pause"
+  switchbot_device_command:
+    url: "https://api.switch-bot.com/v1.0/devices/{{ deviceId }}/commands"
+    method: post
+    content_type: "application/json"
+    headers:
+      Authorization: !secret switchbot_api
+    payload: '{"command": "{{ command }}","parameter": "{{ parameter }}"}'
+
+cover:
+  - platform: template
+    covers:
+      big_bedroom_curtains:
+        device_class: curtain
+        friendly_name: "Big Bedroom Curtains"
+        position_template: "{{ states('sensor.big_bedroom_curtain_position') }}"
+        open_cover:
+          service: rest_command.switchbot_device_command
+          data:
+            deviceId: !secret switchbot_big_bedroom_deviceId
+            command: "turnOn"
+            parameter: ""
+        close_cover:
+          service: rest_command.switchbot_device_command
+          data:
+            deviceId: !secret switchbot_big_bedroom_deviceId
+            command: "turnOff"
+            parameter: ""
+        stop_cover:
+          service: rest_command.switchbot_device_command
+          data:
+            deviceId: !secret switchbot_big_bedroom_deviceId
+            command: "turnOff"
+            parameter: ""
+        set_cover_position:
+          service: rest_command.switchbot_device_command
+          data:
+            deviceId: !secret switchbot_big_bedroom_deviceId
+            command: "setPosition"
+            parameter: "0,ff,{{position}}"
+      small_bedroom_curtains:
+        device_class: curtain
+        friendly_name: "Small Bedroom Curtains"
+        position_template: "{{ states('sensor.small_bedroom_curtain_position') }}"
+        open_cover:
+          service: rest_command.switchbot_device_command
+          data:
+            deviceId: !secret switchbot_small_bedroom_deviceId
+            command: "turnOn"
+            parameter: ""
+        close_cover:
+          service: rest_command.switchbot_device_command
+          data:
+            deviceId: !secret switchbot_small_bedroom_deviceId
+            command: "turnOff"
+            parameter: ""
+        stop_cover:
+          service: rest_command.switchbot_device_command
+          data:
+            deviceId: !secret switchbot_small_bedroom_deviceId
+            command: "turnOff"
+            parameter: ""
+        set_cover_position:
+          service: rest_command.switchbot_device_command
+          data:
+            deviceId: !secret switchbot_small_bedroom_deviceId
+            command: "setPosition"
+            parameter: "0,ff,{{position}}"
 
 ifttt:
   key: !secret iftt_password
 
-binary_sensor:
-  - platform: mqtt
-    state_topic: "jtahlerhass/status"
-    payload_off: "on"
-    payload_on: "off"
-    device_class: problem
-    name: "Jim Home Assistant Status"
-  - platform: mqtt
-    state_topic: "kchass/status"
-    payload_off: "on"
-    payload_on: "off"
-    device_class: problem
-    name: "Karen Home Assistant Status"
-
 shell_command:
   update_ha: ha core update
   turn_off_unraid: "ssh -i /config/.ssh/wtahlerKey root@192.168.86.31 bash /boot/config/sleep.sh"
+  update_git: "/root/config/gitupdate.sh"
 
 device_tracker:
   - platform: ping
@@ -55,6 +106,8 @@ device_tracker:
       billphone_ping: 192.168.86.12
       cassiepersonal_ping: 192.168.86.57
       cassiework_ping: 192.168.86.20
+      bill_work_phone_ping: 192.168.86.43
+      bill_oneplus8_ping: 192.168.86.47
 
 alarm_control_panel:
   - platform: manual
@@ -94,28 +147,65 @@ google_assistant:
   report_state: true
   secure_devices_pin: !secret googlepin
   exposed_domains:
-    - switch
     - light
     - fan
   entity_config:
-    switch.playroom_blinds_1a481500_on_off:
-      expose: false
     light.green_light:
       expose: false
+    switch.down_on:
+      expose: true
+    switch.down_off:
+      expose: true
+    light.downstairs_lights:
+      expose: false
+    light.all_lights:
+      expose: false
+    cover.small_bedroom_curtains:
+      expose: true
+    cover.big_bedroom_curtains:
+      expose: true
+    switch.night_switch:
+      expose: true
+
+fan:
+  - platform: template
+    fans:
+      bedroom_fan:
+        friendly_name: "Bedroom fan"
+        value_template: "{{ states('switch.bedroom_fan') }}"
+        turn_on:
+          service: switch.turn_on
+          data:
+            entities: switch.bedroom_fan
+        turn_off:
+          service: switch.turn_off
+          data:
+            entities: switch.bedroom_fan
+      ceiling_fan:
+        friendly_name: "Ceiling fan"
+        value_template: "{{ states('switch.ceiling_fan') }}"
+        turn_on:
+          service: switch.turn_on
+          data:
+            entities: switch.ceiling_fan
+        turn_off:
+          service: switch.turn_off
+          data:
+            entities: switch.ceiling_fan
 
 recorder:
   #  db_url: "mysql://homeassistant:ilGT2012@192.168.86.58:3306/homeassistant?charset=utf8mb4"
   db_url: !secret mysqldb
   purge_keep_days: 180
 
-influxdb:
-  host: a0d7b954-influxdb
-  port: 8086
-  max_retries: 3
-  username: "homeassistant"
-  password: !secret influxdbpass
-  database: "homeassistant"
-  precision: "s"
+# influxdb:
+#   host: a0d7b954-influxdb
+#   port: 8086
+#   max_retries: 3
+#   username: "homeassistant"
+#   password: !secret influxdbpass
+#   database: "homeassistant"
+#   precision: "s"
 
 google_keep:
   username: wtahler@gmail.com

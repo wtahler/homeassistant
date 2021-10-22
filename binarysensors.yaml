@@ -1,0 +1,41 @@
+- platform: mqtt
+  state_topic: "jtahlerhass/status"
+  payload_off: "on"
+  payload_on: "off"
+  device_class: problem
+  name: "Jim Home Assistant Status"
+- platform: mqtt
+  state_topic: "kchass/status"
+  payload_off: "on"
+  payload_on: "off"
+  device_class: problem
+  name: "Karen Home Assistant Status"
+- platform: template
+  sensors:
+    smoke_detector_garage_status:
+      friendly_name: "Smoke - Garage Status"
+      device_class: "smoke"
+      value_template: >-
+        {{ (is_state("sensor.smoke_detector_garage_alarm_level", "255") and is_state("sensor.smoke_detector_basement_alarm_type", "1")) or
+            (is_state("sensor.smoke_detector_garage_alarm_level", "255") and is_state("sensor.smoke_detector_basement_alarm_type", "2")) }}
+
+    smoke_detector_kitchen_status:
+      friendly_name: "Smoke - Kitchen Status"
+      device_class: "smoke"
+      value_template: >-
+        {{ (is_state("sensor.smoke_detector_kitchen_alarm_level", "255") and is_state("sensor.smoke_detector_main_floor_alarm_type", "1")) or
+            (is_state("sensor.smoke_detector_kitchen_alarm_level", "255") and is_state("sensor.smoke_detector_main_floor_alarm_type", "2")) }}
+
+    smoke_detector_upstairs_status:
+      friendly_name: "Smoke - Upstairs Status"
+      device_class: "smoke"
+      value_template: >-
+        {{ (is_state("sensor.smoke_detector_upstairs_alarm_level", "255") and is_state("sensor.smoke_detector_upstairs_alarm_type", "1")) or
+            (is_state("sensor.smoke_detector_upstairs_alarm_level", "255") and is_state("sensor.smoke_detector_upstairs_alarm_type", "2")) }}
+
+    smoke_detector_play_room_status:
+      friendly_name: "Smoke - Play Room Status"
+      device_class: "smoke"
+      value_template: >-
+        {{ (is_state("sensor.smoke_detector_play_room_alarm_level", "255") and is_state("sensor.smoke_detector_basement_alarm_type", "1")) or
+            (is_state("sensor.smoke_detector_play_room_alarm_level", "255") and is_state("sensor.smoke_detector_basement_alarm_type", "2")) }}

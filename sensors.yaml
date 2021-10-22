@@ -3,7 +3,7 @@
   name: desk lamp energy
   unit_prefix: k
   round: 2
-  
+
 - platform: integration
   source: sensor.power_home_123_1min
   name: total home energy
@@ -144,7 +144,7 @@
 
 - name: sys_version_core_installed
   platform: command_line
-  command: 'curl http://supervisor/info -H "Authorization: Bearer $(printenv SUPERVISOR_TOKEN)" | jq ".data"' 
+  command: 'curl http://supervisor/info -H "Authorization: Bearer $(printenv SUPERVISOR_TOKEN)" | jq ".data"'
   #    scan_interval: 3600
   value_template: "{{ value_json.homeassistant }}"
   json_attributes:
@@ -160,22 +160,21 @@
 - name: sys_version_addons
   platform: command_line
   command: 'curl http://supervisor/supervisor/info -H "Authorization: Bearer $(printenv SUPERVISOR_TOKEN)" | jq ''{"addons":[.data.addons[] | select(.version != .installed)]}'''
-#    scan_interval: 3600
+  #    scan_interval: 3600
   value_template: "{{ value_json.addons | length }}"
   json_attributes:
     - addons
-    
-# - platform: template
-  # sensors:
-    # sys_version_host_installed:
-      # value_template: "{{state_attr('sensor.sys_version_core_installed','hassos')}}"
-    # sys_version_host_latest:
-      # value_template: "{{state_attr('sensor.sys_version_core_latest','hassos')}}"
-    # sys_version_supervisor_installed:
-      # value_template: "{{state_attr('sensor.sys_version_core_installed','supervisor')}}"
-    # sys_version_supervisor_latest:
-      # value_template: "{{state_attr('sensor.sys_version_core_latest','supervisor')}}"
 
+# - platform: template
+# sensors:
+# sys_version_host_installed:
+# value_template: "{{state_attr('sensor.sys_version_core_installed','hassos')}}"
+# sys_version_host_latest:
+# value_template: "{{state_attr('sensor.sys_version_core_latest','hassos')}}"
+# sys_version_supervisor_installed:
+# value_template: "{{state_attr('sensor.sys_version_core_installed','supervisor')}}"
+# sys_version_supervisor_latest:
+# value_template: "{{state_attr('sensor.sys_version_core_latest','supervisor')}}"
 
 - platform: command_line
   name: CPU Temperature
@@ -201,3 +200,133 @@
       arg: eth0
     - type: throughput_network_out
       arg: eth0
+
+  # Replay Sensor - Make a new one for each light to monitor
+  # All sensors will have naming convention "sensor.replay_xxxxx"
+- platform: history_stats
+  name: "replay_desk_lamp"
+  entity_id: light.desk_lamp
+  state: "on"
+  type: count
+  start: >
+    {{ as_timestamp(now()) - (7*86400) }}
+  duration: 00:00:30
+
+- platform: history_stats
+  name: "replay_bedroom_lamps"
+  entity_id: light.bedroom_lamps
+  state: "on"
+  type: count
+  start: >
+    {{ as_timestamp(now()) - (7*86400) }}
+  duration: 00:00:30
+
+- platform: history_stats
+  name: "replay_bathroom_lights"
+  entity_id: light.bathroom_lights
+  state: "on"
+  type: count
+  start: >
+    {{ as_timestamp(now()) - (7*86400) }}
+  duration: 00:00:30
+
+- platform: history_stats
+  name: "replay_nook_lights"
+  entity_id: light.nook_lights
+  state: "on"
+  type: count
+  start: >
+    {{ as_timestamp(now()) - (7*86400) }}
+  duration: 00:00:30
+
+- platform: history_stats
+  name: "replay_garage_lights"
+  entity_id: light.garage_lights
+  state: "on"
+  type: count
+  start: >
+    {{ as_timestamp(now()) - (7*86400) }}
+  duration: 00:00:30
+
+- platform: history_stats
+  name: "replay_play_room_ceiling_lights"
+  entity_id: light.play_room_ceiling_lights
+  state: "on"
+  type: count
+  start: >
+    {{ as_timestamp(now()) - (7*86400) }}
+  duration: 00:00:30
+
+- platform: history_stats
+  name: "replay_kitchen_spotlights"
+  entity_id: light.kitchen_spotlights
+  state: "on"
+  type: count
+  start: >
+    {{ as_timestamp(now()) - (7*86400) }}
+  duration: 00:00:30
+
+- platform: history_stats
+  name: "replay_tv_room_ceiling_lights"
+  entity_id: light.tv_room_ceiling_lights
+  state: "on"
+  type: count
+  start: >
+    {{ as_timestamp(now()) - (7*86400) }}
+  duration: 00:00:30
+
+- platform: history_stats
+  name: "replay_dining_room_chandelier"
+  entity_id: light.dining_room_chandelier
+  state: "on"
+  type: count
+  start: >
+    {{ as_timestamp(now()) - (7*86400) }}
+  duration: 00:00:30
+
+- platform: history_stats
+  name: "replay_entry_chandelier"
+  entity_id: light.entry_chandelier
+  state: "on"
+  type: count
+  start: >
+    {{ as_timestamp(now()) - (7*86400) }}
+  duration: 00:00:30
+
+- platform: rest
+  name: "Big Bedroom Curtain Position"
+  resource: !secret switchbot_big_bedroom_status_url
+  method: GET
+  scan_interval: 600
+  headers:
+    Authorization: !secret switchbot_api
+    Content-Type: "application/json"
+  value_template: "{{ value_json.body.slidePosition }}"
+  json_attributes_path: "$.body"
+  json_attributes:
+    - deviceId
+    - deviceType
+    - hubDeviceId
+    - calibrate
+    - group
+    - moving
+    - slidePosition
+
+- platform: rest
+  name: "Small Bedroom Curtain Position"
+  resource: !secret switchbot_small_bedroom_status_url
+  method: GET
+  scan_interval: 600
+  headers:
+    Authorization: !secret switchbot_api
+    Content-Type: "application/json"
+  value_template: "{{ value_json.body.slidePosition }}"
+  json_attributes_path: "$.body"
+  json_attributes:
+    - deviceId
+    - deviceType
+    - hubDeviceId
+    - calibrate
+    - group
+    - moving
+    - slidePosition

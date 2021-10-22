@@ -56,3 +56,8 @@ test_telegram:
     data:
       message: this is a test
   mode: single
+update_ha:
+  sequence:
+  - service: shell_command.update_git
+  mode: single
+  alias: update HA
