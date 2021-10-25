@@ -9,14 +9,14 @@ known_devices.yaml
 SERVICE_ACCOUNT.JSON
 wtahlerKey
 ip_bans.yaml
-open-zwave
-node-red
-tts
-www
-glances
-custom_components
-blueprints
-image
+open-zwave/
+node-red/
+tts/
+www/
+glances/
+custom_components/
+blueprints/
+image/
 SERVICE_ACCOUNT.JSON
 
 .storage
