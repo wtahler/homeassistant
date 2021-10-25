@@ -9,6 +9,8 @@ known_devices.yaml
 SERVICE_ACCOUNT.JSON
 wtahlerKey
 ip_bans.yaml
+zigbee.db
+
 open-zwave/
 node-red/
 tts/
