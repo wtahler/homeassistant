@@ -194,7 +194,6 @@ fan:
             entities: switch.ceiling_fan
 
 recorder:
-  #  db_url: "mysql://homeassistant:ilGT2012@192.168.86.58:3306/homeassistant?charset=utf8mb4"
   db_url: !secret mysqldb
   purge_keep_days: 180
 
