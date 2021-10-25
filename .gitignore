@@ -3,7 +3,7 @@
 !*.md
 
 secrets.yaml
-home-assistant.log
+home-assistant.log*
 html5_push_registrations.conf
 known_devices.yaml
 SERVICE_ACCOUNT.JSON
