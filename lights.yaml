@@ -65,6 +65,7 @@
     - light.kitchen_hanging_lights
     - light.kitchen_counter_lights
     - light.kitchen_spotlights
+    - light.nook_lights
 
 - platform: group
   name: Downstairs Lights

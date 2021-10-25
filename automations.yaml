@@ -1040,34 +1040,6 @@
     data:
       option: home
   mode: single
-- id: '1634091573145'
-  alias: turn off vents in morning
-  description: ''
-  trigger:
-  - platform: time
-    at: 04:00:00
-  condition: []
-  action:
-  - service: switch.turn_off
-    target:
-      entity_id:
-      - switch.luke_vent
-      - switch.graham_vent
-  mode: single
-- id: '1634091617389'
-  alias: turn on vents later
-  description: ''
-  trigger:
-  - platform: time
-    at: 07:00:00
-  condition: []
-  action:
-  - service: switch.turn_on
-    target:
-      entity_id:
-      - switch.luke_vent
-      - switch.graham_vent
-  mode: single
 - id: '1634091828297'
   alias: mode to vacation when gone a long time
   description: ''
@@ -1088,3 +1060,210 @@
     data:
       option: vacation
   mode: single
+- id: '1635023741355'
+  alias: double tap kitchen counter
+  description: ''
+  use_blueprint:
+    path: kpine/ge_double.yaml
+    input:
+      device: 05c31911e96815f87acd7841c08739f8
+      double_tap_on:
+      - service: light.turn_on
+        data:
+          brightness: 255
+        target:
+          entity_id: light.kitchen_lights
+      double_tap_off:
+      - service: light.turn_off
+        target:
+          entity_id: light.kitchen_lights
+- id: '1635024922749'
+  alias: double tap hanging lights
+  description: ''
+  use_blueprint:
+    path: kpine/ge_double.yaml
+    input:
+      device: 8f1a45bed41cca60b912b6878eac8127
+      double_tap_on:
+      - service: light.turn_on
+        data:
+          brightness: 255
+        target:
+          entity_id: light.kitchen_lights
+      double_tap_off:
+      - service: light.turn_off
+        target:
+          entity_id: light.kitchen_lights
+- id: '1635025575126'
+  alias: double tap ktichen spotlights
+  description: ''
+  use_blueprint:
+    path: kpine/ge_double.yaml
+    input:
+      device: 5beb67af1e8c7382c94f5406b1d4eb1f
+      double_tap_on:
+      - service: light.turn_on
+        data:
+          brightness: 255
+        target:
+          entity_id: light.kitchen_lights
+      double_tap_off:
+      - service: light.turn_off
+        target:
+          entity_id: light.kitchen_lights
+- id: '1635025654571'
+  alias: double tap nook lights
+  description: ''
+  use_blueprint:
+    path: kpine/ge_double.yaml
+    input:
+      device: 05c31911e96815f87acd7841c08739f8
+      double_tap_on:
+      - service: light.turn_on
+        data:
+          brightness: 255
+        target:
+          entity_id: light.kitchen_lights
+      double_tap_off:
+      - service: light.turn_off
+        target:
+          entity_id: light.kitchen_lights
+- id: '1635025695807'
+  alias: double tap dining chandelier
+  description: ''
+  use_blueprint:
+    path: kpine/ge_double.yaml
+    input:
+      device: 729f7538b2ad798335ea0849829f568c
+      double_tap_on:
+      - service: light.turn_on
+        data:
+          brightness: 255
+        target:
+          entity_id: light.downstairs_lights
+      double_tap_off:
+      - service: light.turn_off
+        target:
+          entity_id: light.downstairs_lights
+- id: '1635025719933'
+  alias: double tap entry chandelier
+  description: ''
+  use_blueprint:
+    path: kpine/ge_double.yaml
+    input:
+      device: e7436e7759dbd58180b4ab37f767f3ab
+      double_tap_on:
+      - service: light.turn_on
+        data:
+          brightness: 255
+        target:
+          entity_id: light.downstairs_lights
+      double_tap_off:
+      - service: light.turn_off
+        target:
+          entity_id: light.downstairs_lights
+- id: '1635025732771'
+  alias: double tap tv lights
+  description: ''
+  use_blueprint:
+    path: kpine/ge_double.yaml
+    input:
+      device: e464218f6392a49c818fa40f330a4795
+      double_tap_on:
+      - service: light.turn_on
+        data:
+          brightness: 255
+        target:
+          entity_id: light.downstairs_lights
+      double_tap_off:
+      - service: light.turn_off
+        target:
+          entity_id: light.downstairs_lights
+- id: '1635025745669'
+  alias: double tap down sconces
+  description: ''
+  use_blueprint:
+    path: kpine/ge_double.yaml
+    input:
+      device: 9b855fd6ab369eb9e4ca5523168c3ac8
+      double_tap_on:
+      - service: light.turn_on
+        data:
+          brightness: 255
+        target:
+          entity_id: light.downstairs_lights
+      double_tap_off:
+      - service: light.turn_off
+        target:
+          entity_id: light.downstairs_lights
+- id: '1635025809906'
+  alias: double tap play room lights
+  description: ''
+  use_blueprint:
+    path: kpine/ge_double.yaml
+    input:
+      device: 6ff611de637076471aa07649a69dacc6
+      double_tap_on:
+      - service: light.turn_on
+        data:
+          brightness: 255
+        target:
+          entity_id:
+          - light.play_room_ceiling_lights
+          - light.fireplace_lights
+      double_tap_off:
+      - service: light.turn_off
+        target:
+          entity_id:
+          - light.play_room_ceiling_lights
+          - light.fireplace_lights
+- id: '1635025832251'
+  alias: double tap fireplace lights
+  description: ''
+  use_blueprint:
+    path: kpine/ge_double.yaml
+    input:
+      device: e5d269928f2465646b626832651400e3
+      double_tap_on:
+      - service: light.turn_on
+        data:
+          brightness: 255
+        target:
+          entity_id:
+          - light.play_room_ceiling_lights
+          - light.fireplace_lights
+      double_tap_off:
+      - service: light.turn_off
+        target:
+          entity_id:
+          - light.play_room_ceiling_lights
+          - light.fireplace_lights
+- id: '1635025863565'
+  alias: double tap bathroom lights
+  description: ''
+  use_blueprint:
+    path: kpine/ge_double.yaml
+    input:
+      device: 62a27abc24e6188c1cd49ca40471dd6e
+      double_tap_on: []
+      double_tap_off:
+      - service: light.turn_off
+        target:
+          entity_id: light.downstairs_lights
+- id: '1635027158366'
+  alias: double tap high floodlights
+  description: ''
+  use_blueprint:
+    path: kpine/honeywell_double.yaml
+    input:
+      device: 6df0b67c6642e07b78f217615f3e3c03
+      double_tap_on:
+      - service: light.turn_on
+        target:
+          entity_id: light.downstairs_lights
+        data:
+          brightness: 255
+      double_tap_off:
+      - service: light.turn_off
+        target:
+          entity_id: light.downstairs_sconces

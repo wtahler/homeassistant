@@ -207,11 +207,6 @@ recorder:
 #   database: "homeassistant"
 #   precision: "s"
 
-google_keep:
-  username: wtahler@gmail.com
-  password: !secret google_keep_pass
-  list_name: "shopping list"
-
 telegram_bot:
   - platform: polling
     api_key: !secret tgram_key
