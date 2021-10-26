@@ -1,0 +1,24 @@
+- platform: template
+  fans:
+    bedroom_fan:
+      friendly_name: "Bedroom fan"
+      value_template: "{{ states('switch.bedroom_fan') }}"
+      turn_on:
+        service: switch.turn_on
+        data:
+          entities: switch.bedroom_fan
+      turn_off:
+        service: switch.turn_off
+        data:
+          entities: switch.bedroom_fan
+    ceiling_fan:
+      friendly_name: "Ceiling fan"
+      value_template: "{{ states('switch.ceiling_fan') }}"
+      turn_on:
+        service: switch.turn_on
+        data:
+          entities: switch.ceiling_fan
+      turn_off:
+        service: switch.turn_off
+        data:
+          entities: switch.ceiling_fan

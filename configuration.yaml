@@ -14,6 +14,8 @@ switch: !include switches.yaml
 light: !include lights.yaml
 template: !include templates.yaml
 binary_sensor: !include binarysensors.yaml
+cover: !include covers.yaml
+fan: !include fans.yaml
 
 homeassistant:
   customize: !include customize.yaml
@@ -31,66 +33,6 @@ rest_command:
     headers:
       Authorization: !secret switchbot_api
     payload: '{"command": "{{ command }}","parameter": "{{ parameter }}"}'
-
-cover:
-  - platform: template
-    covers:
-      big_bedroom_curtains:
-        device_class: curtain
-        friendly_name: "Big Bedroom Curtains"
-        position_template: "{{ states('sensor.big_bedroom_curtain_position') }}"
-        open_cover:
-          service: rest_command.switchbot_device_command
-          data:
-            deviceId: !secret switchbot_big_bedroom_deviceId
-            command: "turnOn"
-            parameter: ""
-        close_cover:
-          service: rest_command.switchbot_device_command
-          data:
-            deviceId: !secret switchbot_big_bedroom_deviceId
-            command: "turnOff"
-            parameter: ""
-        stop_cover:
-          service: rest_command.switchbot_device_command
-          data:
-            deviceId: !secret switchbot_big_bedroom_deviceId
-            command: "turnOff"
-            parameter: ""
-        set_cover_position:
-          service: rest_command.switchbot_device_command
-          data:
-            deviceId: !secret switchbot_big_bedroom_deviceId
-            command: "setPosition"
-            parameter: "0,ff,{{position}}"
-      small_bedroom_curtains:
-        device_class: curtain
-        friendly_name: "Small Bedroom Curtains"
-        position_template: "{{ states('sensor.small_bedroom_curtain_position') }}"
-        open_cover:
-          service: rest_command.switchbot_device_command
-          data:
-            deviceId: !secret switchbot_small_bedroom_deviceId
-            command: "turnOn"
-            parameter: ""
-        close_cover:
-          service: rest_command.switchbot_device_command
-          data:
-            deviceId: !secret switchbot_small_bedroom_deviceId
-            command: "turnOff"
-            parameter: ""
-        stop_cover:
-          service: rest_command.switchbot_device_command
-          data:
-            deviceId: !secret switchbot_small_bedroom_deviceId
-            command: "turnOff"
-            parameter: ""
-        set_cover_position:
-          service: rest_command.switchbot_device_command
-          data:
-            deviceId: !secret switchbot_small_bedroom_deviceId
-            command: "setPosition"
-            parameter: "0,ff,{{position}}"
 
 ifttt:
   key: !secret iftt_password
@@ -166,32 +108,6 @@ google_assistant:
       expose: true
     switch.night_switch:
       expose: true
-
-fan:
-  - platform: template
-    fans:
-      bedroom_fan:
-        friendly_name: "Bedroom fan"
-        value_template: "{{ states('switch.bedroom_fan') }}"
-        turn_on:
-          service: switch.turn_on
-          data:
-            entities: switch.bedroom_fan
-        turn_off:
-          service: switch.turn_off
-          data:
-            entities: switch.bedroom_fan
-      ceiling_fan:
-        friendly_name: "Ceiling fan"
-        value_template: "{{ states('switch.ceiling_fan') }}"
-        turn_on:
-          service: switch.turn_on
-          data:
-            entities: switch.ceiling_fan
-        turn_off:
-          service: switch.turn_off
-          data:
-            entities: switch.ceiling_fan
 
 recorder:
   db_url: !secret mysqldb
