@@ -1,6 +1,6 @@
-- platform: switchbot
-  mac: "E2:F1:A2:AF:E3:FA"
-  name: "Coffee Maker Pusher"
+# - platform: switchbot
+#   mac: "E2:F1:A2:AF:E3:FA"
+#   name: "Coffee Maker Pusher"
 
 - platform: wake_on_lan
   name: "unraid wakeup"
