@@ -969,22 +969,30 @@
   trigger:
   - platform: state
     entity_id: binary_sensor.jim_home_assistant_status
-    to: 'off'
+    to: 'on'
     for:
       hours: 0
       minutes: 0
-      seconds: 0
+      seconds: 30
       milliseconds: 0
-    from: 'on'
   condition: []
   action:
+  - wait_for_trigger:
+    - platform: state
+      entity_id: binary_sensor.jim_home_assistant_status
+      to: 'off'
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 5
+        milliseconds: 0
   - service: notify.tgrambill
     data:
       message: jim server is back
   - service: notify.tgramdad
     data:
       message: your HA server is back
-  mode: single
+  mode: restart
 - id: '1632496248674'
   alias: downstairs lights in morning
   description: ''
@@ -1002,8 +1010,7 @@
       - light.kitchen_counter_lights
       - light.play_room_ceiling_lights
       - light.entry_lamps
-    data:
-      brightness: 1
+    data: {}
   mode: single
 - id: '1633981916173'
   alias: goodnight mode off
