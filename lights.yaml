@@ -31,10 +31,6 @@
   entity_id: switch.deck_lights
 
 - platform: switch
-  name: Desk Lamp
-  entity_id: switch.desk_lamp
-
-- platform: switch
   name: Dining Room Chandelier
   entity_id: switch.dining_room_chandelier
 
@@ -53,6 +49,10 @@
 - platform: switch
   name: Garage Lights
   entity_id: switch.garage_lights
+
+- platform: switch
+  name: Green Light
+  entity_id: switch.green_light
 
 - platform: switch
   name: Shop Driveway Lights

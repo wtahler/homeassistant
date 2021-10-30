@@ -527,11 +527,30 @@
       friendly_name: Entry lamps
       state: 'off'
     light.desk_lamp:
+      min_mireds: 111
+      max_mireds: 666
+      effect_list:
+      - effect_colorloop
+      - effect_pulse
+      - effect_stop
       supported_color_modes:
-      - onoff
-      friendly_name: Desk Lamp
-      supported_features: 0
-      state: 'off'
+      - color_temp
+      - hs
+      color_mode: hs
+      brightness: 48
+      hs_color:
+      - 44.995
+      - 28.571
+      rgb_color:
+      - 255
+      - 236
+      - 182
+      xy_color:
+      - 0.385
+      - 0.384
+      friendly_name: desk lamp
+      supported_features: 55
+      state: 'on'
     switch.couch_light_strip:
       friendly_name: couch light strip
       state: 'on'
@@ -539,6 +558,15 @@
       supported_color_modes:
       - brightness
       friendly_name: TV room ceiling lights
+      supported_features: 32
+      state: 'off'
+    switch.dining_room_chandelier:
+      friendly_name: dining room chandelier
+      state: 'off'
+    light.downstairs_sconces:
+      supported_color_modes:
+      - brightness
+      friendly_name: Downstairs sconces
       supported_features: 32
       state: 'off'
 - id: '1598882891938'
