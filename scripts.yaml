@@ -61,3 +61,16 @@ update_ha:
   - service: shell_command.update_git
   mode: single
   alias: update HA
+blink_desk_lamp:
+  sequence:
+  - service: lifx.effect_pulse
+    target:
+      entity_id: light.desk_lamp
+    data:
+      mode: ping
+      brightness: 255
+      color_name: pink
+      period: 11
+      cycles: 3
+  mode: single
+  alias: blink desk lamp

@@ -1,3 +1,2 @@
 profile,color_x,color_y,brightness,transition
-group.all_lights.default,0,0,255,
-light.wake_up_light.default,0.172, 0.747,10
+group.all_lights.default,0.36,0.36,255,

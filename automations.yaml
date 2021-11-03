@@ -1274,3 +1274,114 @@
       - service: light.turn_off
         target:
           entity_id: light.downstairs_sconces
+- id: '1635902355410'
+  alias: turn on camper heater when bill home
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: person.bill_tahler
+    to: home
+  condition:
+  - condition: time
+    after: '22:00:00'
+    before: 03:00:00
+  action:
+  - service: switch.turn_on
+    target:
+      entity_id: switch.camper_heater
+  mode: single
+- id: '1635902617459'
+  alias: turn off camper heater when bill leaves
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: person.bill_tahler
+    from: home
+    to: not_home
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  condition: []
+  action:
+  - service: switch.turn_off
+    target:
+      entity_id: switch.camper_heater
+  mode: single
+- id: '1635912818808'
+  alias: blink light when i get a notification
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.oneplus8_active_notification_count
+  condition:
+  - condition: state
+    entity_id: person.bill_tahler
+    state: home
+  - condition: state
+    entity_id: input_select.mode
+    state: home
+  - condition: template
+    value_template: '{{ states(''sensor.oneplus8_active_notification_count'') | int
+      > states(''input_number.bill_prev_not'') | int }}'
+  - condition: state
+    entity_id: sensor.oneplus8_do_not_disturb_sensor
+    state: 'off'
+  action:
+  - service: script.blink_desk_lamp
+  mode: single
+- id: '1635913313844'
+  alias: blink light tester
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.oneplus8_active_notification_count
+  condition:
+  - condition: template
+    value_template: '{{ states(''sensor.oneplus8_active_notification_count'') | int
+      > states(''input_number.bill_prev_not'') | int }}'
+  action:
+  - service: notify.mobile_app_oneplus8
+    data:
+      title: got a notification
+      message: worked
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  mode: single
+- id: '1635913668703'
+  alias: update notification counter
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.oneplus8_active_notification_count
+  condition:
+  - condition: template
+    value_template: '{{ states(''sensor.oneplus8_active_notification_count'') | int
+      != states(''input_number.bill_prev_not'') | int }}'
+  action:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - service: input_number.set_value
+    target:
+      entity_id: input_number.bill_prev_not
+    data:
+      value: '{{ states(''sensor.oneplus8_active_notification_count'') | int }}'
+  mode: single
+- id: '1635913964493'
+  alias: send notification
+  description: ''
+  trigger: []
+  condition: []
+  action:
+  - service: notify.mobile_app_oneplus8
+    data:
+      message: testing
+      title: test test
+  mode: single

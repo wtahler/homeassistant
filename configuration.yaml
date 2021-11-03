@@ -92,8 +92,6 @@ google_assistant:
     - light
     - fan
   entity_config:
-    light.green_light:
-      expose: false
     switch.down_on:
       expose: true
     switch.down_off:
