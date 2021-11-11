@@ -13,7 +13,6 @@ everyoneb:
 motionsensors:
   name: All motion sensors
   entities:
-    - binary_sensor.picam_motion
     - binary_sensor.kitchen_motion_sensor_ias_zone
     - binary_sensor.bedroom
     - binary_sensor.den

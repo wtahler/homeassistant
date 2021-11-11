@@ -12,6 +12,10 @@
   name: "Karen Home Assistant Status"
 - platform: template
   sensors:
+    kitchen_motion:
+      friendly_name: "Kitchen Motion"
+      device_class: motion
+      value_template: "{{ is_state('input_boolean.kitchen_motion', 'on') }}"
     smoke_detector_garage_status:
       friendly_name: "Smoke - Garage Status"
       device_class: "smoke"

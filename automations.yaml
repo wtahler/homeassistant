@@ -376,24 +376,26 @@
     entity_id: cover.blinds_window_covering
     service: cover.close_cover
   mode: single
-- alias: Motioneye - piCam - Motion started
+- id: 0b95e8fab2b24f3bade9c2406ae08849
+  alias: Motioneye - kitchen - Motion started
   trigger:
-    platform: webhook
-    webhook_id: motioneye-picam-started
+  - platform: webhook
+    webhook_id: motioneye-kitchen-started
   action:
-    service: input_boolean.turn_on
-    data:
-      entity_id: input_boolean.picam_motion_detected
-  id: 0b95e8fab2b24f3bade9c2406ae08849
-- alias: Motioneye - piCam - Motion ended
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.kitchen_motion
+- id: 46fcbb676ea64d7188f1b16009018c8b
+  alias: Motioneye - kitchen - Motion ended
   trigger:
-    platform: webhook
-    webhook_id: motioneye-picam-ended
+  - platform: webhook
+    webhook_id: motioneye-kitchen-ended
   action:
-    service: input_boolean.turn_off
-    data:
-      entity_id: input_boolean.picam_motion_detected
-  id: 46fcbb676ea64d7188f1b16009018c8b
+  - service: input_boolean.turn_off
+    data: {}
+    target:
+      entity_id: input_boolean.kitchen_motion
 - alias: Enable motion detection
   trigger:
   - platform: state
@@ -402,14 +404,14 @@
   action:
     service: rest_command.camera_motion_start
   id: cf9c8cb48a8848a8bd99ec4691ea947c
-- alias: Disable motion detection
+- id: b34efac466d64ece83ccefb7d1bde9d4
+  alias: Disable motion detection
   trigger:
   - platform: state
-    entity_id: input_boolean.picam_control
+    entity_id: input_boolean.kitchen_camera_control
     to: 'off'
   action:
-    service: rest_command.camera_motion_pause
-  id: b34efac466d64ece83ccefb7d1bde9d4
+  - service: rest_command.camera_motion_pause
 - id: '1600841143732'
   alias: close van door from automation
   description: ''
@@ -1315,6 +1317,10 @@
   trigger:
   - platform: state
     entity_id: sensor.oneplus8_active_notification_count
+    id: oneplus
+  - platform: state
+    entity_id: sensor.pixel_3_active_notification_count
+    id: pixel
   condition:
   - condition: state
     entity_id: person.bill_tahler
@@ -1323,11 +1329,30 @@
     entity_id: input_select.mode
     state: home
   - condition: template
-    value_template: '{{ states(''sensor.oneplus8_active_notification_count'') | int
-      > states(''input_number.bill_prev_not'') | int }}'
-  - condition: state
-    entity_id: sensor.oneplus8_do_not_disturb_sensor
-    state: 'off'
+    value_template: '{{ trigger.to_state.state | int > trigger.from_state.state |
+      int }}'
+  - condition: or
+    conditions:
+    - condition: and
+      conditions:
+      - condition: trigger
+        id: oneplus
+      - condition: state
+        entity_id: binary_sensor.oneplus8_interactive
+        state: 'off'
+      - condition: state
+        entity_id: sensor.oneplus8_do_not_disturb_sensor
+        state: 'off'
+    - condition: and
+      conditions:
+      - condition: trigger
+        id: pixel
+      - condition: state
+        entity_id: binary_sensor.pixel_3_interactive
+        state: 'off'
+      - condition: state
+        entity_id: sensor.pixel_3_do_not_disturb_sensor
+        state: 'off'
   action:
   - service: script.blink_desk_lamp
   mode: single
@@ -1337,15 +1362,16 @@
   trigger:
   - platform: state
     entity_id: sensor.oneplus8_active_notification_count
+    id: notifs
   condition:
   - condition: template
-    value_template: '{{ states(''sensor.oneplus8_active_notification_count'') | int
-      > states(''input_number.bill_prev_not'') | int }}'
+    value_template: '{{ trigger.to_state.state | int > trigger.from_state.state |
+      int }}'
   action:
   - service: notify.mobile_app_oneplus8
     data:
-      title: got a notification
-      message: worked
+      title: ' {{ trigger.from_state.state | int }}'
+      message: ' {{ trigger.to_state.state | int }}'
   - delay:
       hours: 0
       minutes: 0
@@ -1384,4 +1410,30 @@
     data:
       message: testing
       title: test test
+  mode: single
+- id: '1636338442674'
+  alias: turn off green lights after 10 minutes
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: light.green_light
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  - platform: state
+    entity_id: light.guest_room_lamp
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  condition: []
+  action:
+  - service: light.turn_off
+    target:
+      entity_id: '{{ trigger.entity_id }}'
   mode: single

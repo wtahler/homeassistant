@@ -63,14 +63,34 @@ update_ha:
   alias: update HA
 blink_desk_lamp:
   sequence:
-  - service: lifx.effect_pulse
-    target:
-      entity_id: light.desk_lamp
-    data:
-      mode: ping
-      brightness: 255
-      color_name: pink
-      period: 11
-      cycles: 3
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: light.desk_lamp
+        state: 'on'
+      sequence:
+      - service: lifx.effect_pulse
+        data:
+          mode: breathe
+          brightness: 103
+          period: 1
+          cycles: 2
+          power_on: false
+        target:
+          entity_id: light.desk_lamp
+    - conditions:
+      - condition: state
+        entity_id: light.desk_lamp
+        state: 'off'
+      sequence:
+      - service: lifx.effect_pulse
+        target:
+          entity_id: light.desk_lamp
+        data:
+          mode: breathe
+          brightness: 66
+          period: 1
+          cycles: 1
+    default: []
   mode: single
   alias: blink desk lamp
