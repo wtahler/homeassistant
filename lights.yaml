@@ -3,10 +3,6 @@
   entity_id: switch.guest_room_lamp
 
 - platform: switch
-  name: Kitchen Counter Lights
-  entity_id: switch.kitchen_counter_lights
-
-- platform: switch
   name: Kitchen Spotlights
   entity_id: switch.kitchen_spotlights
 
@@ -21,10 +17,6 @@
 - platform: switch
   name: Bedroom Lamps
   entity_id: switch.bedroom_lamps
-
-- platform: switch
-  name: Couch Light Strip
-  entity_id: switch.couch_light_strip
 
 - platform: switch
   name: Deck Lights
@@ -57,6 +49,22 @@
 - platform: switch
   name: Shop Driveway Lights
   entity_id: switch.shop_driveway_lights
+  
+- platform: switch
+  name: Kitchen Light Strip
+  entity_id: switch.kitchen_light_strip
+  
+- platform: switch
+  name: Kitchen Cabinet Lights
+  entity_id: switch.kitchen_cabinet_lights
+  
+- platform: group
+  name: Kitchen Counter Lights
+  unique_id: '3444893'
+  entities:
+    - light.kitchen_light_strip
+    - light.kitchen_cabinet_lights
+    - light.kitchen_edge_lights
 
 - platform: group
   name: Kitchen Lights
@@ -66,6 +74,7 @@
     - light.kitchen_counter_lights
     - light.kitchen_spotlights
     - light.nook_lights
+    - light.kitchen_edge_lights
 
 - platform: group
   name: Downstairs Lights
@@ -85,12 +94,13 @@
     - light.entry_lamps
     - light.kitchen_counter_lights
     - light.kitchen_spotlights
-    - light.couch_light_strip
+    - light.kitchen_edge_lights
 
 - platform: group
   name: All Lights
   unique_id: alllights
   entities:
+    - light.kitchen_edge_lights
     - light.bathroom_lights
     - light.desk_lamp
     - light.gable_lights
@@ -112,4 +122,3 @@
     - light.entry_lamps
     - light.kitchen_spotlights
     - light.kitchen_counter_lights
-    - light.couch_light_strip

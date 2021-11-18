@@ -293,6 +293,33 @@
     {{ as_timestamp(now()) - (7*86400) }}
   duration: 00:00:30
 
+- platform: history_stats
+  name: "replay_gable_lights"
+  entity_id: light.gable_lights
+  state: "on"
+  type: count
+  start: >
+    {{ as_timestamp(now()) - (7*86400) }}
+  duration: 00:00:30
+
+- platform: history_stats
+  name: "replay_kitchen_counter_lights"
+  entity_id: light.kitchen_counter_lights
+  state: "on"
+  type: count
+  start: >
+    {{ as_timestamp(now()) - (7*86400) }}
+  duration: 00:00:30
+
+- platform: history_stats
+  name: "replay_downstairs_sconces"
+  entity_id: light.downstairs_sconces
+  state: "on"
+  type: count
+  start: >
+    {{ as_timestamp(now()) - (7*86400) }}
+  duration: 00:00:30
+
 - platform: rest
   name: "Big Bedroom Curtain Position"
   resource: !secret switchbot_big_bedroom_status_url

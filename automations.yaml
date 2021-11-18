@@ -279,7 +279,6 @@
     to: 'on'
   condition: []
   action:
-  - scene: scene.watching_tv
   - condition: state
     entity_id: person.bill_tahler
     state: home
@@ -1436,4 +1435,89 @@
   - service: light.turn_off
     target:
       entity_id: '{{ trigger.entity_id }}'
+  mode: single
+- id: '1636680999603'
+  alias: gable lights at night
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: '0'
+  condition: []
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.gable_lights
+  mode: single
+- id: '1636681032903'
+  alias: gable lights off at morning
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: '0'
+  condition: []
+  action:
+  - service: light.turn_off
+    target:
+      entity_id: light.gable_lights
+  mode: single
+- id: '1636683188742'
+  alias: kitchen counter lights from motion at night
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.kitchen_motion_sensor_ias_zone
+    to: 'on'
+  condition:
+  - condition: time
+    after: '21:00:00'
+    before: 04:30:00
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.kitchen_counter_lights
+  - wait_for_trigger:
+    - platform: state
+      entity_id: binary_sensor.kitchen_motion_sensor_ias_zone
+      from: 'on'
+      to: 'off'
+      for:
+        hours: 0
+        minutes: 1
+        seconds: 0
+        milliseconds: 0
+    - platform: state
+      entity_id: light.kitchen_counter_lights
+      to: 'off'
+  - service: light.turn_off
+    target:
+      entity_id: light.kitchen_counter_lights
+  mode: restart
+- id: '1637082334146'
+  alias: kitchen counter lights together
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: light.kitchen_cabinet_lights
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: light.kitchen_cabinet_lights
+        state: 'on'
+      sequence:
+      - service: light.turn_on
+        target:
+          entity_id: light.kitchen_light_strip
+    - conditions:
+      - condition: state
+        entity_id: light.kitchen_cabinet_lights
+        state: 'off'
+      sequence:
+      - service: light.turn_off
+        target:
+          entity_id: light.kitchen_light_strip
+    default: []
   mode: single

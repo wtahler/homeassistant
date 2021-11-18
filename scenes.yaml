@@ -539,7 +539,7 @@
       color_mode: hs
       brightness: 48
       hs_color:
-      - 44.995
+      - 44.99
       - 28.571
       rgb_color:
       - 255
@@ -567,6 +567,52 @@
       supported_color_modes:
       - brightness
       friendly_name: Downstairs sconces
+      supported_features: 32
+      state: 'off'
+    light.high_floodlights:
+      supported_color_modes:
+      - brightness
+      friendly_name: high floodlights
+      supported_features: 32
+      state: 'off'
+    light.kitchen_hanging_lights:
+      supported_color_modes:
+      - brightness
+      friendly_name: Kitchen hanging lights
+      supported_features: 32
+      state: 'off'
+    switch.kitchen_counter_lights:
+      friendly_name: kitchen counter lights
+      state: 'off'
+    switch.kitchen_spotlights:
+      friendly_name: kitchen spotlights
+      state: 'off'
+    light.nook_lights:
+      supported_color_modes:
+      - brightness
+      friendly_name: nook lights
+      supported_features: 32
+      state: 'off'
+    light.play_room_ceiling_lights:
+      supported_color_modes:
+      - brightness
+      friendly_name: play room ceiling lights
+      supported_features: 32
+      state: 'off'
+    switch.bedroom_lamps:
+      friendly_name: bedroom lamps
+      device_class: outlet
+      state: 'off'
+    light.upstairs_sconces:
+      supported_color_modes:
+      - brightness
+      friendly_name: upstairs sconces
+      supported_features: 32
+      state: 'off'
+    light.bedroom_sconces:
+      supported_color_modes:
+      - brightness
+      friendly_name: bedroom sconces
       supported_features: 32
       state: 'off'
 - id: '1598882891938'
