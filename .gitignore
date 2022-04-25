@@ -19,6 +19,7 @@ glances/
 custom_components/
 blueprints/
 image/
+nest/
 SERVICE_ACCOUNT.JSON
 
 .storage

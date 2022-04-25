@@ -5,105 +5,105 @@
       editable: true
       friendly_name: down lights on
       state: 'off'
-    light.tv_room_ceiling_lights:
-      friendly_name: TV room ceiling lights
-      node_id: 19
-      state: 'on'
-      supported_features: 1
-      value_id: '72057594361511937'
-      value_index: 0
-      value_instance: 1
     light.downstairs_sconces:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
       brightness: 255
       friendly_name: Downstairs sconces
-      node_id: 12
+      supported_features: 32
       state: 'on'
-      supported_features: 1
-      value_id: '72057594244071425'
-      value_index: 0
-      value_instance: 1
     light.entry_chandelier:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
       brightness: 255
-      friendly_name: Entry Chandelier
-      node_id: 2
+      friendly_name: entry chandelier
+      supported_features: 32
       state: 'on'
-      supported_features: 1
-      value_id: '72057594076299265'
-      value_index: 0
-      value_instance: 1
-    light.fireplace:
-      brightness: 255
-      friendly_name: Fireplace Lights
-      node_id: 21
-      state: 'on'
-      supported_features: 1
-      value_id: '72057594395066369'
-      value_index: 0
-      value_instance: 1
     light.high_floodlights:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
       brightness: 255
-      friendly_name: High Floodlights Level
-      node_id: 16
+      friendly_name: high floodlights
+      supported_features: 32
       state: 'on'
-      supported_features: 33
-      value_id: '72057594311180289'
-      value_index: 0
-      value_instance: 1
     light.kitchen_hanging_lights:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
       brightness: 255
-      friendly_name: Kitchen Hanging Lights
-      node_id: 10
+      friendly_name: Kitchen hanging lights
+      supported_features: 32
       state: 'on'
-      supported_features: 1
-      value_id: '72057594210516993'
-      value_index: 0
-      value_instance: 1
     light.nook_lights:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
       brightness: 255
-      friendly_name: Nook lights
-      node_id: 18
+      friendly_name: nook lights
+      supported_features: 32
       state: 'on'
-      supported_features: 1
-      value_id: '72057594344734721'
-      value_index: 0
-      value_instance: 1
     light.play_room_ceiling_lights:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
       brightness: 255
-      friendly_name: Play Room Ceiling Lights
-      node_id: 15
+      friendly_name: play room ceiling lights
+      supported_features: 32
       state: 'on'
-      supported_features: 1
-      value_id: '72057594294403073'
-      value_index: 0
-      value_instance: 1
-    switch.dining_room_chandelier_switch:
-      friendly_name: Dining Room Chandelier Switch
-      node_id: 6
-      state: 'on'
-      value_id: '72057594143391744'
-      value_index: 0
-      value_instance: 1
     switch.entry_lamps:
-      friendly_name: Entry Lamps Switch
-      node_id: 13
+      friendly_name: Entry lamps
       state: 'on'
-      value_id: '72057594260832256'
-      value_index: 0
-      value_instance: 1
-    switch.kitchen_counter_lights:
-      friendly_name: Kitchen Counter Lights
-      node_id: 11
+    light.tv_room_ceiling_light_1:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      - onoff
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 423
+      hs_color:
+      - 29.258
+      - 77.685
+      rgb_color:
+      - 255
+      - 153
+      - 56
+      xy_color:
+      - 0.562
+      - 0.389
+      friendly_name: TV room ceiling light 1
+      supported_features: 0
       state: 'on'
-      value_id: '72057594227277824'
-      value_index: 0
-      value_instance: 1
-    switch.linear_nortek_security_control_llc_ps15z_2_plug_in_appliance_module_switch_2:
-      friendly_name: Corner Lamp Switch
-      node_id: 14
+    light.tv_room_ceiling_light_2:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      - onoff
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 422
+      hs_color:
+      - 29.243
+      - 77.486
+      rgb_color:
+      - 255
+      - 153
+      - 57
+      xy_color:
+      - 0.562
+      - 0.389
+      friendly_name: tv room ceiling light 2
+      supported_features: 0
       state: 'on'
-      value_id: '72057594277609472'
-      value_index: 0
-      value_instance: 1
 - id: '1598839757849'
   name: downstairs lights off
   entities:
@@ -111,409 +111,219 @@
       editable: true
       friendly_name: down lights off
       state: 'on'
-    light.tv_room_ceiling_lights:
-      friendly_name: TV room ceiling lights
-      node_id: 19
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594361511937'
-      supported_features: 1
-      state: 'off'
     light.downstairs_sconces:
-      node_id: 12
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594244071425'
+      supported_color_modes:
+      - brightness
       friendly_name: Downstairs sconces
-      supported_features: 1
+      supported_features: 32
       state: 'off'
     light.entry_chandelier:
-      brightness: 62
-      node_id: 2
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594076299265'
-      friendly_name: Entry Chandelier
-      supported_features: 1
-      state: 'off'
-    light.fireplace:
-      brightness: 67
-      node_id: 21
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594395066369'
-      friendly_name: Fireplace Lights
-      supported_features: 1
+      supported_color_modes:
+      - brightness
+      friendly_name: entry chandelier
+      supported_features: 32
       state: 'off'
     light.high_floodlights:
-      node_id: 16
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594311180289'
-      friendly_name: High Floodlights Level
-      supported_features: 33
+      supported_color_modes:
+      - brightness
+      friendly_name: high floodlights
+      supported_features: 32
       state: 'off'
     light.kitchen_hanging_lights:
-      brightness: 70
-      node_id: 10
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594210516993'
-      friendly_name: Kitchen Hanging Lights
-      supported_features: 1
+      supported_color_modes:
+      - brightness
+      friendly_name: Kitchen hanging lights
+      supported_features: 32
       state: 'off'
     light.nook_lights:
-      brightness: 82
-      node_id: 18
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594344734721'
-      friendly_name: Nook lights
-      supported_features: 1
+      supported_color_modes:
+      - brightness
+      friendly_name: nook lights
+      supported_features: 32
       state: 'off'
     light.play_room_ceiling_lights:
-      brightness: 88
-      node_id: 15
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594294403073'
-      friendly_name: Play Room Ceiling Lights
-      supported_features: 1
-      state: 'off'
-    switch.dining_room_chandelier_switch:
-      node_id: 6
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594143391744'
-      friendly_name: Dining Room Chandelier Switch
+      supported_color_modes:
+      - brightness
+      friendly_name: play room ceiling lights
+      supported_features: 32
       state: 'off'
     switch.entry_lamps:
-      node_id: 13
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594260832256'
-      friendly_name: Entry Lamps Switch
-      state: 'off'
-    switch.kitchen_counter_lights:
-      node_id: 11
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594227277824'
-      friendly_name: Kitchen Counter Lights
+      friendly_name: Entry lamps
       state: 'off'
     switch.kitchen_spotlights:
-      node_id: 17
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594327941120'
-      friendly_name: Kitchen Spotlights
+      friendly_name: kitchen spotlights
       state: 'off'
-    switch.linear_nortek_security_control_llc_ps15z_2_plug_in_appliance_module_switch_2:
-      node_id: 14
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594277609472'
-      friendly_name: Corner Lamp Switch
+    light.tv_room_ceiling_light_1:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      - onoff
+      friendly_name: TV room ceiling light 1
+      supported_features: 0
       state: 'off'
-    switch.01300842cc50e3c9230a:
-      friendly_name: play room lamp
+    light.tv_room_ceiling_light_2:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      - onoff
+      friendly_name: tv room ceiling light 2
+      supported_features: 0
       state: 'off'
 - id: '1598839757850'
   name: everything off
   entities:
     light.bedroom_sconces:
-      node_id: 33
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594596392961'
-      friendly_name: Bedroom Sconces Level
-      supported_features: 1
-      state: 'off'
-    light.tv_room_ceiling_lights:
-      friendly_name: TV room ceiling lights
-      node_id: 19
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594361511937'
-      supported_features: 1
+      supported_color_modes:
+      - brightness
+      friendly_name: bedroom sconces
+      supported_features: 32
       state: 'off'
     light.downstairs_sconces:
-      node_id: 12
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594244071425'
+      supported_color_modes:
+      - brightness
       friendly_name: Downstairs sconces
-      supported_features: 1
+      supported_features: 32
       state: 'off'
     light.entry_chandelier:
-      node_id: 2
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594076299265'
-      friendly_name: Entry Chandelier
-      supported_features: 1
-      state: 'off'
-    light.fireplace:
-      node_id: 21
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594395066369'
-      friendly_name: Fireplace Lights
-      supported_features: 1
+      supported_color_modes:
+      - brightness
+      friendly_name: entry chandelier
+      supported_features: 32
       state: 'off'
     light.high_floodlights:
-      node_id: 16
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594311180289'
-      friendly_name: High Floodlights Level
-      supported_features: 33
+      supported_color_modes:
+      - brightness
+      friendly_name: high floodlights
+      supported_features: 32
       state: 'off'
     light.kitchen_hanging_lights:
-      node_id: 10
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594210516993'
-      friendly_name: Kitchen Hanging Lights
-      supported_features: 1
+      supported_color_modes:
+      - brightness
+      friendly_name: Kitchen hanging lights
+      supported_features: 32
       state: 'off'
     light.nook_lights:
-      node_id: 18
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594344734721'
-      friendly_name: Nook lights
-      supported_features: 1
+      supported_color_modes:
+      - brightness
+      friendly_name: nook lights
+      supported_features: 32
       state: 'off'
     light.play_room_ceiling_lights:
-      node_id: 15
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594294403073'
-      friendly_name: Play Room Ceiling Lights
-      supported_features: 1
+      supported_color_modes:
+      - brightness
+      friendly_name: play room ceiling lights
+      supported_features: 32
       state: 'off'
     switch.bathroom_lights:
-      node_id: 36
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594646708224'
-      friendly_name: Bathroom lights Switch
-      state: 'off'
-    switch.dining_room_chandelier_switch:
-      node_id: 6
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594143391744'
-      friendly_name: Dining Room Chandelier Switch
+      friendly_name: bathroom lights
       state: 'off'
     switch.driveway_lights:
-      node_id: 29
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594529267712'
-      friendly_name: Driveway Lights Switch
+      friendly_name: driveway lights
       state: 'off'
     switch.entry_lamps:
-      node_id: 13
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594260832256'
-      friendly_name: Entry Lamps Switch
-      state: 'off'
-    switch.gable_lights_switch:
-      node_id: 23
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594428604416'
-      friendly_name: Gable Lights Switch
+      friendly_name: Entry lamps
       state: 'off'
     switch.garage_lights:
-      node_id: 22
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594411827200'
-      friendly_name: Garage Lights Switch
-      state: 'off'
-    switch.kitchen_counter_lights:
-      node_id: 11
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594227277824'
-      friendly_name: Kitchen Counter Lights
-      state: 'off'
+      restored: true
+      friendly_name: garage lights
+      supported_features: 0
+      state: unavailable
     switch.kitchen_spotlights:
-      node_id: 17
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594327941120'
-      friendly_name: Kitchen Spotlights
-      state: 'off'
-    switch.linear_nortek_security_control_llc_ps15z_2_plug_in_appliance_module_switch_2:
-      node_id: 14
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594277609472'
-      friendly_name: LED strip Switch
+      friendly_name: kitchen spotlights
       state: 'off'
     switch.shop_driveway_lights:
-      node_id: 30
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594546044928'
-      friendly_name: Shop Driveway Lights
+      friendly_name: shop driveway lights
       state: 'off'
-    switch.01300842cc50e3c9230a:
-      friendly_name: play room lamp
+    light.tv_room_ceiling_light_1:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      - onoff
+      friendly_name: TV room ceiling light 1
+      supported_features: 0
       state: 'off'
-    switch.inside_christmas_1:
-      friendly_name: inside Christmas lights 1
-      state: 'off'
-    switch.inside_christmas_2:
-      node_id: 34
-      value_index: 0
-      value_instance: 1
-      value_id: '72057594613153792'
-      friendly_name: inside Christmas lights 2 Switch
+    light.tv_room_ceiling_light_2:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      - onoff
+      friendly_name: tv room ceiling light 2
+      supported_features: 0
       state: 'off'
 - id: '1598839799850'
   name: everything off but kitchen
   entities:
     light.bedroom_sconces:
-      friendly_name: Bedroom Sconces Level
-      node_id: 33
+      supported_color_modes:
+      - brightness
+      friendly_name: bedroom sconces
+      supported_features: 32
       state: 'off'
-      supported_features: 1
-      value_id: '72057594596392961'
-      value_index: 0
-      value_instance: 1
-    light.tv_room_ceiling_lights:
-      friendly_name: TV room ceiling lights
-      node_id: 19
-      state: 'off'
-      supported_features: 1
-      value_id: '72057594361511937'
-      value_index: 0
-      value_instance: 1
     light.downstairs_sconces:
+      supported_color_modes:
+      - brightness
       friendly_name: Downstairs sconces
-      node_id: 12
+      supported_features: 32
       state: 'off'
-      supported_features: 1
-      value_id: '72057594244071425'
-      value_index: 0
-      value_instance: 1
     light.entry_chandelier:
-      friendly_name: Entry Chandelier
-      node_id: 2
+      supported_color_modes:
+      - brightness
+      friendly_name: entry chandelier
+      supported_features: 32
       state: 'off'
-      supported_features: 1
-      value_id: '72057594076299265'
-      value_index: 0
-      value_instance: 1
-    light.fireplace:
-      friendly_name: Fireplace Lights
-      node_id: 21
-      state: 'off'
-      supported_features: 1
-      value_id: '72057594395066369'
-      value_index: 0
-      value_instance: 1
     light.high_floodlights:
-      friendly_name: High Floodlights Level
-      node_id: 16
+      supported_color_modes:
+      - brightness
+      friendly_name: high floodlights
+      supported_features: 32
       state: 'off'
-      supported_features: 33
-      value_id: '72057594311180289'
-      value_index: 0
-      value_instance: 1
     light.kitchen_hanging_lights:
-      friendly_name: Kitchen Hanging Lights
-      node_id: 10
+      supported_color_modes:
+      - brightness
+      friendly_name: Kitchen hanging lights
+      supported_features: 32
       state: 'off'
-      supported_features: 1
-      value_id: '72057594210516993'
-      value_index: 0
-      value_instance: 1
     light.nook_lights:
-      friendly_name: Nook lights
-      node_id: 18
+      supported_color_modes:
+      - brightness
+      friendly_name: nook lights
+      supported_features: 32
       state: 'off'
-      supported_features: 1
-      value_id: '72057594344734721'
-      value_index: 0
-      value_instance: 1
     light.play_room_ceiling_lights:
-      friendly_name: Play Room Ceiling Lights
-      node_id: 15
+      supported_color_modes:
+      - brightness
+      friendly_name: play room ceiling lights
+      supported_features: 32
       state: 'off'
-      supported_features: 1
-      value_id: '72057594294403073'
-      value_index: 0
-      value_instance: 1
-    switch.baby_lamp:
-      friendly_name: Baby lamp Switch
-      node_id: 34
-      state: 'off'
-      value_id: '72057594613153792'
-      value_index: 0
-      value_instance: 1
     switch.bathroom_lights:
-      friendly_name: Bathroom lights Switch
-      node_id: 36
+      friendly_name: bathroom lights
       state: 'off'
-      value_id: '72057594646708224'
-      value_index: 0
-      value_instance: 1
-    switch.dining_room_chandelier_switch:
-      friendly_name: Dining Room Chandelier Switch
-      node_id: 6
-      state: 'off'
-      value_id: '72057594143391744'
-      value_index: 0
-      value_instance: 1
     switch.driveway_lights:
-      friendly_name: Driveway Lights Switch
-      node_id: 29
+      friendly_name: driveway lights
       state: 'off'
-      value_id: '72057594529267712'
-      value_index: 0
-      value_instance: 1
     switch.entry_lamps:
-      friendly_name: Entry Lamps Switch
-      node_id: 13
+      friendly_name: Entry lamps
       state: 'off'
-      value_id: '72057594260832256'
-      value_index: 0
-      value_instance: 1
-    switch.gable_lights_switch:
-      friendly_name: Gable Lights Switch
-      node_id: 23
-      state: 'off'
-      value_id: '72057594428604416'
-      value_index: 0
-      value_instance: 1
     switch.garage_lights:
-      friendly_name: Garage Lights Switch
-      node_id: 22
-      state: 'off'
-      value_id: '72057594411827200'
-      value_index: 0
-      value_instance: 1
-    switch.linear_nortek_security_control_llc_ps15z_2_plug_in_appliance_module_switch_2:
-      friendly_name: Corner Lamp Switch
-      node_id: 14
-      state: 'off'
-      value_id: '72057594277609472'
-      value_index: 0
-      value_instance: 1
+      restored: true
+      friendly_name: garage lights
+      supported_features: 0
+      state: unavailable
     switch.shop_driveway_lights:
-      friendly_name: Shop Driveway Lights
-      node_id: 30
+      friendly_name: shop driveway lights
       state: 'off'
-      value_id: '72057594546044928'
-      value_index: 0
-      value_instance: 1
 - id: '1598841473455'
   name: watching tv
   entities:
@@ -525,40 +335,6 @@
       state: 'off'
     switch.entry_lamps:
       friendly_name: Entry lamps
-      state: 'off'
-    light.desk_lamp:
-      min_mireds: 111
-      max_mireds: 666
-      effect_list:
-      - effect_colorloop
-      - effect_pulse
-      - effect_stop
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: hs
-      brightness: 48
-      hs_color:
-      - 44.99
-      - 28.571
-      rgb_color:
-      - 255
-      - 236
-      - 182
-      xy_color:
-      - 0.385
-      - 0.384
-      friendly_name: desk lamp
-      supported_features: 55
-      state: 'on'
-    switch.couch_light_strip:
-      friendly_name: couch light strip
-      state: 'on'
-    light.tv_room_ceiling_lights:
-      supported_color_modes:
-      - brightness
-      friendly_name: TV room ceiling lights
-      supported_features: 32
       state: 'off'
     switch.dining_room_chandelier:
       friendly_name: dining room chandelier
@@ -581,9 +357,6 @@
       friendly_name: Kitchen hanging lights
       supported_features: 32
       state: 'off'
-    switch.kitchen_counter_lights:
-      friendly_name: kitchen counter lights
-      state: 'off'
     switch.kitchen_spotlights:
       friendly_name: kitchen spotlights
       state: 'off'
@@ -600,8 +373,8 @@
       supported_features: 32
       state: 'off'
     switch.bedroom_lamps:
-      friendly_name: bedroom lamps
       device_class: outlet
+      friendly_name: bedroom lamps
       state: 'off'
     light.upstairs_sconces:
       supported_color_modes:
@@ -615,6 +388,40 @@
       friendly_name: bedroom sconces
       supported_features: 32
       state: 'off'
+    light.tv_room_ceiling_light_1:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      - onoff
+      friendly_name: TV room ceiling light 1
+      supported_features: 0
+      state: 'off'
+    light.tv_room_ceiling_light_2:
+      min_mireds: 153
+      max_mireds: 500
+      supported_color_modes:
+      - brightness
+      - color_temp
+      - hs
+      - onoff
+      color_mode: hs
+      brightness: 255
+      hs_color:
+      - 360
+      - 100
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      xy_color:
+      - 0.701
+      - 0.299
+      friendly_name: tv room ceiling light 2
+      supported_features: 0
+      state: 'on'
 - id: '1598882891938'
   name: kitchen bright
   entities:

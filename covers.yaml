@@ -1,7 +1,6 @@
 - platform: template
   covers:
     big_bedroom_curtains:
-      device_class: curtain
       friendly_name: "Big Bedroom Curtains"
       position_template: "{{ states('sensor.big_bedroom_curtain_position') }}"
       open_cover:
@@ -29,7 +28,6 @@
           command: "setPosition"
           parameter: "0,ff,{{position}}"
     small_bedroom_curtains:
-      device_class: curtain
       friendly_name: "Small Bedroom Curtains"
       position_template: "{{ states('sensor.small_bedroom_curtain_position') }}"
       open_cover:

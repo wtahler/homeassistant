@@ -16,9 +16,14 @@ template: !include templates.yaml
 binary_sensor: !include binarysensors.yaml
 cover: !include covers.yaml
 fan: !include fans.yaml
+button: !include buttons.yaml
+#localtuya: !include localtuya.yaml
 
 homeassistant:
   customize: !include customize.yaml
+  external_url: "https://tahler.duckdns.org"
+  allowlist_external_dirs:
+    - "/tmp"
 
 frontend:
   themes: !include themes.yaml
@@ -45,10 +50,8 @@ shell_command:
 device_tracker:
   - platform: ping
     hosts:
-      billphone_ping: 192.168.86.12
+      bill_pixel5_ping: 192.168.86.12
       cassiepersonal_ping: 192.168.86.57
-      cassiework_ping: 192.168.86.20
-      bill_work_phone_ping: 192.168.86.43
       bill_oneplus8_ping: 192.168.86.47
 
 alarm_control_panel:
@@ -75,6 +78,12 @@ notify:
   - platform: telegram
     name: tgramdad
     chat_id: !secret jim_chat_id
+  - platform: telegram
+    name: tgramcassie
+    chat_id: !secret cassie_chat_id
+  - platform: telegram
+    name: tgramBroadcast
+    chat_id: !secret group_chat_id
 
 http:
   use_x_forwarded_for: true
@@ -92,12 +101,10 @@ google_assistant:
     - light
     - fan
   entity_config:
-    switch.down_on:
-      expose: true
-    switch.down_off:
-      expose: true
-    light.downstairs_lights:
-      expose: false
+    # switch.down_on:
+    #   expose: true
+    # switch.down_off:
+    #   expose: true
     light.all_lights:
       expose: false
     cover.small_bedroom_curtains:
@@ -106,10 +113,21 @@ google_assistant:
       expose: true
     switch.night_switch:
       expose: true
+    switch.fluxer:
+      expose: false
+    switch.3d_printer:
+      expose: false
+    light.unused_dimmer:
+      expose: false
 
 recorder:
   db_url: !secret mysqldb
-  purge_keep_days: 180
+  purge_keep_days: 20
+
+nest:
+  client_id: 187933860375-q75efh6pdti4e43tc9s1tk863qe6jk1d.apps.googleusercontent.com
+  client_secret: !secret nest_client_secret
+  project_id: 4f89ec27-2bc6-4f16-a69d-e255139a39b2
 
 # influxdb:
 #   host: a0d7b954-influxdb
@@ -121,24 +139,26 @@ recorder:
 #   precision: "s"
 
 telegram_bot:
-  - platform: polling
+  - platform: webhooks
     api_key: !secret tgram_key
     allowed_chat_ids:
       - !secret bill_chat_id
       - !secret jim_chat_id
+      - !secret cassie_chat_id
+      - !secret group_chat_id
 
 mqtt:
-  broker: tahlerwireguard.duckdns.org
+#   broker: a7a156b1e0fb470ca73b82fe0bd2afe3.s2.eu.hivemq.cloud
   certificate: auto
-  port: 8883
-  username: hamqtt
-  password: !secret mqtt_password
-  birth_message:
-    topic: "wtahlerhass/status"
-    payload: "on"
-  will_message:
-    topic: "wtahlerhass/status"
-    payload: "off"
+#   port: 8883
+#   username: home_assistant
+#   password: !secret mqtt_password
+#   birth_message:
+#     topic: "wtahlerhass/status"
+#     payload: "on"
+#   will_message:
+#     topic: "wtahlerhass/status"
+#     payload: "off"
 
 duckdns:
   access_token: !secret duck_token

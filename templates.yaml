@@ -1,4 +1,9 @@
 - sensor:
+    - name: camper heat runtime
+      unit_of_measurement: "hours"
+      state: >
+        {{ states('counter.camper_heat_runtime') | float / 12 / 60 }}
+
     - name: "Desk Lamp Power"
       unit_of_measurement: "W"
       device_class: "power"
@@ -214,7 +219,7 @@
         {% endif %}
 
     - name: "Kitchen Hanging Lights Power"
-      unit_of_measurement: "W" 
+      unit_of_measurement: "W"
       device_class: "power"
       state_class: "measurement"
       state: >
@@ -277,15 +282,15 @@
       unit_of_measurement: "Â°F"
       state_class: "measurement"
       state: "{{ states.weather.thermostat.attributes.temperature }}"
-      
+
     - name: "sys_version_host_installed"
       state: "{{state_attr('sensor.sys_version_core_installed','hassos')}}"
-      
+
     - name: "sys_version_host_latest"
       state: "{{state_attr('sensor.sys_version_core_latest','hassos')}}"
-      
+
     - name: "sys_version_supervisor_installed"
       state: "{{state_attr('sensor.sys_version_core_installed','supervisor')}}"
-      
+
     - name: "sys_version_supervisor_latest"
       state: "{{state_attr('sensor.sys_version_core_latest','supervisor')}}"

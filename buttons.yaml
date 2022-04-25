@@ -1,0 +1,7 @@
+- platform: mqtt
+  command_topic: "octoPrint/control/shutdown"
+  availability_topic: "octoPrint/status"
+  payload_available: "connected"
+  payload_not_available: "disconnected"
+  name: Shutdown Octoprint
+  

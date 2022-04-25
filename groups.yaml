@@ -40,7 +40,8 @@ alldownon:
     - switch.entry_lamps
     - switch.desk_lamp
     - light.downstairs_sconces
-    - light.tv_room_ceiling_lights
+    - light.tv_room_ceiling_light_1
+    - light.tv_room_ceiling_light_2
     - light.entry_chandelier
     - light.fireplace
     - light.high_floodlights
@@ -61,7 +62,8 @@ alldownoff:
     - switch.kitchen_spotlights
     - switch.desk_lamp
     - light.downstairs_sconces
-    - light.tv_room_ceiling_lights
+    - light.tv_room_ceiling_light_1
+    - light.tv_room_ceiling_light_2
     - light.entry_chandelier
     - light.fireplace
     - light.high_floodlights
@@ -104,7 +106,8 @@ alllightsoff:
     - switch.entry_lamps
     - light.downstairs_sconces
     - light.bedroom_sconces
-    - light.tv_room_ceiling_lights
+    - light.tv_room_ceiling_light_1
+    - light.tv_room_ceiling_light_2
     - light.entry_chandelier
     - light.fireplace_lights
     - light.high_floodlights

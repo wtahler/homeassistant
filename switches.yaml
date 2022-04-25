@@ -1,6 +1,24 @@
 # - platform: switchbot
 #   mac: "E2:F1:A2:AF:E3:FA"
 #   name: "Coffee Maker Pusher"
+# Example configuration.yaml entry
+
+- platform: flux
+  lights:
+    - light.tv_room_ceiling_light_1
+    - light.tv_room_ceiling_light_2
+    #- light.kitchen_edge_lights
+  name: Fluxer
+  start_time: "6:00"
+  stop_time: "23:00"
+  start_colortemp: 3200
+  sunset_colortemp: 2600
+  stop_colortemp: 2500
+  brightness: 255
+  disable_brightness_adjust: true
+  mode: xy
+  transition: 30
+  interval: 60
 
 - platform: wake_on_lan
   name: "unraid wakeup"
@@ -36,24 +54,24 @@
 
 - platform: template
   switches:
-    down_on:
-      value_template: "{{ states('input_boolean.down_lights_on') }}"
-      friendly_name: "Downstairs lights on"
-      turn_on:
-        - service: input_boolean.turn_on
-          entity_id: input_boolean.down_lights_on
-      turn_off:
-        - service: input_boolean.turn_off
-          entity_id: input_boolean.down_lights_on
-    kitchen_on:
-      value_template: "{{ states('input_boolean.kitchen_on') }}"
-      friendly_name: "Kitchen lights on"
-      turn_on:
-        - service: input_boolean.turn_on
-          entity_id: input_boolean.kitchen_on
-      turn_off:
-        - service: input_boolean.turn_off
-          entity_id: input_boolean.kitchen_on
+    # down_on:
+    #   value_template: "{{ states('input_boolean.down_lights_on') }}"
+    #   friendly_name: "Downstairs lights on"
+    #   turn_on:
+    #     - service: input_boolean.turn_on
+    #       entity_id: input_boolean.down_lights_on
+    #   turn_off:
+    #     - service: input_boolean.turn_off
+    #       entity_id: input_boolean.down_lights_on
+    # kitchen_on:
+    #   value_template: "{{ states('input_boolean.kitchen_on') }}"
+    #   friendly_name: "Kitchen lights on"
+    #   turn_on:
+    #     - service: input_boolean.turn_on
+    #       entity_id: input_boolean.kitchen_on
+    #   turn_off:
+    #     - service: input_boolean.turn_off
+    #       entity_id: input_boolean.kitchen_on
     night_switch:
       value_template: "{{ states('input_boolean.goodnight') }}"
       friendly_name: "Night Switch"
@@ -63,24 +81,24 @@
       turn_off:
         - service: input_boolean.turn_off
           entity_id: input_boolean.goodnight
-    kitchen_off:
-      value_template: "{{ states('input_boolean.kitchen_off') }} "
-      friendly_name: "Kitchen lights off"
-      turn_on:
-        - service: input_boolean.turn_on
-          entity_id: input_boolean.kitchen_off
-      turn_off:
-        - service: input_boolean.turn_off
-          entity_id: input_boolean.kitchen_off
-    down_off:
-      value_template: "{{ states('input_boolean.down_lights_off') }}"
-      friendly_name: "Downstairs lights off"
-      turn_off:
-        - service: input_boolean.turn_off
-          entity_id: input_boolean.down_lights_off
-      turn_on:
-        - service: input_boolean.turn_on
-          entity_id: input_boolean.down_lights_off
+    # kitchen_off:
+    #   value_template: "{{ states('input_boolean.kitchen_off') }} "
+    #   friendly_name: "Kitchen lights off"
+    #   turn_on:
+    #     - service: input_boolean.turn_on
+    #       entity_id: input_boolean.kitchen_off
+    #   turn_off:
+    #     - service: input_boolean.turn_off
+    #       entity_id: input_boolean.kitchen_off
+    # down_off:
+    #   value_template: "{{ states('input_boolean.down_lights_off') }}"
+    #   friendly_name: "Downstairs lights off"
+    #   turn_off:
+    #     - service: input_boolean.turn_off
+    #       entity_id: input_boolean.down_lights_off
+    #   turn_on:
+    #     - service: input_boolean.turn_on
+    #       entity_id: input_boolean.down_lights_off
     front_door_locker:
       value_template: "{{ states('input_boolean.front_door_lock') }}"
       turn_on:

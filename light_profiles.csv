@@ -1,2 +1,6 @@
 profile,color_x,color_y,brightness,transition
 group.all_lights.default,0.36,0.36,255,
+light.shower_flood_light,0.323,0.329,255,
+light.toilet_flood_light,0.323,0.329,255,
+light.tv_room_ceiling_light_1,0.4019,0.4324,
+light.tv_room_ceiling_light_2,0.4019,0.4324,
