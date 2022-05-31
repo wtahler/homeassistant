@@ -1,121 +1,121 @@
   # Replay Sensor - Make a new one for each light to monitor
   # All sensors will have naming convention "sensor.replay_xxxxx"
-- platform: history_stats
-  name: "replay_desk_lamp"
-  entity_id: light.desk_lamp
-  state: "on"
-  type: count
-  start: >
-    {{ as_timestamp(now()) - (7*86400) }}
-  duration: 00:00:30
+# - platform: history_stats
+#   name: "replay_desk_lamp"
+#   entity_id: light.desk_lamp
+#   state: "on"
+#   type: count
+#   start: >
+#     {{ as_timestamp(now()) - (7*86400) }}
+#   duration: 00:00:30
 
-- platform: history_stats
-  name: "replay_bedroom_lamps"
-  entity_id: light.bedroom_lamps
-  state: "on"
-  type: count
-  start: >
-    {{ as_timestamp(now()) - (7*86400) }}
-  duration: 00:00:30
+# - platform: history_stats
+#   name: "replay_bedroom_lamps"
+#   entity_id: light.bedroom_lamps
+#   state: "on"
+#   type: count
+#   start: >
+#     {{ as_timestamp(now()) - (7*86400) }}
+#   duration: 00:00:30
 
-- platform: history_stats
-  name: "replay_bathroom_lights"
-  entity_id: light.bathroom_lights
-  state: "on"
-  type: count
-  start: >
-    {{ as_timestamp(now()) - (7*86400) }}
-  duration: 00:00:30
+# - platform: history_stats
+#   name: "replay_bathroom_lights"
+#   entity_id: light.bathroom_lights
+#   state: "on"
+#   type: count
+#   start: >
+#     {{ as_timestamp(now()) - (7*86400) }}
+#   duration: 00:00:30
 
-- platform: history_stats
-  name: "replay_nook_lights"
-  entity_id: light.nook_lights
-  state: "on"
-  type: count
-  start: >
-    {{ as_timestamp(now()) - (7*86400) }}
-  duration: 00:00:30
+# - platform: history_stats
+#   name: "replay_nook_lights"
+#   entity_id: light.nook_lights
+#   state: "on"
+#   type: count
+#   start: >
+#     {{ as_timestamp(now()) - (7*86400) }}
+#   duration: 00:00:30
 
-- platform: history_stats
-  name: "replay_garage_lights"
-  entity_id: light.garage_lights
-  state: "on"
-  type: count
-  start: >
-    {{ as_timestamp(now()) - (7*86400) }}
-  duration: 00:00:30
+# - platform: history_stats
+#   name: "replay_garage_lights"
+#   entity_id: light.garage_lights
+#   state: "on"
+#   type: count
+#   start: >
+#     {{ as_timestamp(now()) - (7*86400) }}
+#   duration: 00:00:30
 
-- platform: history_stats
-  name: "replay_play_room_ceiling_lights"
-  entity_id: light.play_room_ceiling_lights
-  state: "on"
-  type: count
-  start: >
-    {{ as_timestamp(now()) - (7*86400) }}
-  duration: 00:00:30
+# - platform: history_stats
+#   name: "replay_play_room_ceiling_lights"
+#   entity_id: light.play_room_ceiling_lights
+#   state: "on"
+#   type: count
+#   start: >
+#     {{ as_timestamp(now()) - (7*86400) }}
+#   duration: 00:00:30
 
-- platform: history_stats
-  name: "replay_kitchen_spotlights"
-  entity_id: light.kitchen_spotlights
-  state: "on"
-  type: count
-  start: >
-    {{ as_timestamp(now()) - (7*86400) }}
-  duration: 00:00:30
+# - platform: history_stats
+#   name: "replay_kitchen_spotlights"
+#   entity_id: light.kitchen_spotlights
+#   state: "on"
+#   type: count
+#   start: >
+#     {{ as_timestamp(now()) - (7*86400) }}
+#   duration: 00:00:30
 
-- platform: history_stats
-  name: "replay_tv_room_ceiling_lights"
-  entity_id: light.tv_room_ceiling_lights
-  state: "on"
-  type: count
-  start: >
-    {{ as_timestamp(now()) - (7*86400) }}
-  duration: 00:00:30
+# - platform: history_stats
+#   name: "replay_tv_room_ceiling_lights"
+#   entity_id: light.tv_room_ceiling_lights
+#   state: "on"
+#   type: count
+#   start: >
+#     {{ as_timestamp(now()) - (7*86400) }}
+#   duration: 00:00:30
 
-- platform: history_stats
-  name: "replay_dining_room_chandelier"
-  entity_id: light.dining_room_chandelier
-  state: "on"
-  type: count
-  start: >
-    {{ as_timestamp(now()) - (7*86400) }}
-  duration: 00:00:30
+# - platform: history_stats
+#   name: "replay_dining_room_chandelier"
+#   entity_id: light.dining_room_chandelier
+#   state: "on"
+#   type: count
+#   start: >
+#     {{ as_timestamp(now()) - (7*86400) }}
+#   duration: 00:00:30
 
-- platform: history_stats
-  name: "replay_entry_chandelier"
-  entity_id: light.entry_chandelier
-  state: "on"
-  type: count
-  start: >
-    {{ as_timestamp(now()) - (7*86400) }}
-  duration: 00:00:30
+# - platform: history_stats
+#   name: "replay_entry_chandelier"
+#   entity_id: light.entry_chandelier
+#   state: "on"
+#   type: count
+#   start: >
+#     {{ as_timestamp(now()) - (7*86400) }}
+#   duration: 00:00:30
 
-- platform: history_stats
-  name: "replay_gable_lights"
-  entity_id: light.gable_lights
-  state: "on"
-  type: count
-  start: >
-    {{ as_timestamp(now()) - (7*86400) }}
-  duration: 00:00:30
+# - platform: history_stats
+#   name: "replay_gable_lights"
+#   entity_id: light.gable_lights
+#   state: "on"
+#   type: count
+#   start: >
+#     {{ as_timestamp(now()) - (7*86400) }}
+#   duration: 00:00:30
 
-- platform: history_stats
-  name: "replay_kitchen_counter_lights"
-  entity_id: light.kitchen_counter_lights
-  state: "on"
-  type: count
-  start: >
-    {{ as_timestamp(now()) - (7*86400) }}
-  duration: 00:00:30
+# - platform: history_stats
+#   name: "replay_kitchen_counter_lights"
+#   entity_id: light.kitchen_counter_lights
+#   state: "on"
+#   type: count
+#   start: >
+#     {{ as_timestamp(now()) - (7*86400) }}
+#   duration: 00:00:30
 
-- platform: history_stats
-  name: "replay_downstairs_sconces"
-  entity_id: light.downstairs_sconces
-  state: "on"
-  type: count
-  start: >
-    {{ as_timestamp(now()) - (7*86400) }}
-  duration: 00:00:30
+# - platform: history_stats
+#   name: "replay_downstairs_sconces"
+#   entity_id: light.downstairs_sconces
+#   state: "on"
+#   type: count
+#   start: >
+#     {{ as_timestamp(now()) - (7*86400) }}
+#   duration: 00:00:30
 
 - platform: rest
   name: "Big Bedroom Curtain Position"
@@ -154,3 +154,8 @@
     - group
     - moving
     - slidePosition
+
+#- platform: integration
+#  source: sensor.heat_pump_on_power
+#  name: heat pump usage
+#  unit_time: min

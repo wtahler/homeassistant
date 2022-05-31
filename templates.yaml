@@ -4,6 +4,30 @@
       state: >
         {{ states('counter.camper_heat_runtime') | float / 12 / 60 }}
 
+    - name: water heater btuhr
+      unit_of_measurement: Btu/hr
+      device_class: "power"
+      state_class: measurement
+      state: >
+        {% if states('sensor.water_heater_minute_usage') | float > 4600 %}
+          19554
+        {% elif states('sensor.water_heater_minute_usage') | float > 4000 %}
+          15354
+        {% elif states('sensor.water_heater_minute_usage') | float > 200 %}
+          4200
+        {% else %}
+          0
+        {% endif %}
+
+    - name: water heater running total
+      unit_of_measurement: "gallons"
+      state: >
+        {% if is_state('binary_sensor.heat_pump_water_heater_running', 'on')  %} {{ ((now().timestamp() - state_attr('input_datetime.water_heater_on_time','timestamp')) * 4200 / 3600 / 609) | round(1) }} {% else %} {{ states('input_number.water_heater_last_gallons_regenerated') }} {% endif %}
+
+    - name: hot water usage
+      unit_of_measurement: "gallons"
+      state: "{{ states('input_number.hot_water_usage') }}"
+
     - name: "Desk Lamp Power"
       unit_of_measurement: "W"
       device_class: "power"
@@ -13,6 +37,15 @@
           19
         {% else %}
           0
+        {% endif %}
+        
+    - name: "electricity cost"
+      unit_of_measurement: "USD/kWh"
+      state: >
+        {% if (states('sensor.main_monthly_usage') | int ) < 600 %}
+          0.095
+        {% else %}
+          0.115
         {% endif %}
 
     - name: "Ceiling Fan Power"
@@ -282,15 +315,3 @@
       unit_of_measurement: "Â°F"
       state_class: "measurement"
       state: "{{ states.weather.thermostat.attributes.temperature }}"
-
-    - name: "sys_version_host_installed"
-      state: "{{state_attr('sensor.sys_version_core_installed','hassos')}}"
-
-    - name: "sys_version_host_latest"
-      state: "{{state_attr('sensor.sys_version_core_latest','hassos')}}"
-
-    - name: "sys_version_supervisor_installed"
-      state: "{{state_attr('sensor.sys_version_core_installed','supervisor')}}"
-
-    - name: "sys_version_supervisor_latest"
-      state: "{{state_attr('sensor.sys_version_core_latest','supervisor')}}"

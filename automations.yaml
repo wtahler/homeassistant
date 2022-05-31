@@ -132,6 +132,11 @@
   - condition: state
     entity_id: group.motionsensors
     state: 'off'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: guest
   action:
   - data:
       option: away
@@ -170,6 +175,11 @@
     - condition: state
       entity_id: input_select.mode
       state: away
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: guest
   action:
   - data:
       option: home
@@ -234,7 +244,7 @@
       - condition: trigger
         id: doors
       sequence:
-      - service: notify.tgrambroadcast
+      - service: notify.tgrambill
         data:
           message: 'ALARM TRIGGERED, {{ expand(''group.doorsensors'') | selectattr(''state'',''eq'',''on'')
             | map(attribute=''name'') | list | join('', '') }} was opened.
@@ -244,7 +254,7 @@
       - condition: trigger
         id: garages
       sequence:
-      - service: notify.tgrambroadcast
+      - service: notify.tgrambill
         data:
           message: 'ALARM TRIGGERED, {{ expand(''group.garagedoors'') | selectattr(''state'',''eq'',''on'')
             | map(attribute=''name'') | list | join('', '') }} was opened
@@ -254,7 +264,7 @@
       - condition: trigger
         id: motion
       sequence:
-      - service: notify.tgrambroadcast
+      - service: notify.tgrambill
         data:
           message: 'ALARM TRIGGERED, motion detected from: {{ expand(''group.motionsensors'')
             | selectattr(''state'',''eq'',''on'') | map(attribute=''name'') | list
@@ -284,7 +294,12 @@
     from: 'off'
     platform: state
     to: 'on'
-  condition: []
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: guest
   action:
   - condition: state
     entity_id: person.bill_tahler
@@ -293,6 +308,7 @@
   - service: switch.turn_off
     target:
       entity_id: switch.fluxer
+    data: {}
   mode: single
 - id: '1600286895079'
   alias: 1 goodnight nfc tag
@@ -585,7 +601,12 @@
     entity_id: switch.bedroom_fan
     from: 'off'
     to: 'on'
-  condition: []
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: guest
   action:
   - delay:
       hours: 5
@@ -595,6 +616,7 @@
   - service: switch.turn_off
     target:
       entity_id: switch.bedroom_fan
+    data: {}
   mode: single
 - id: '1622695212600'
   alias: goodnight mode on
@@ -604,14 +626,21 @@
     entity_id: input_boolean.goodnight
     from: 'off'
     to: 'on'
-  condition: []
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: guest
   action:
   - service: light.turn_off
     target:
       entity_id: light.all_lights
+    data: {}
   - service: switch.turn_on
     target:
       entity_id: switch.noise_machine
+    data: {}
   - service: cover.set_cover_position
     target:
       entity_id:
@@ -759,6 +788,11 @@
   - condition: state
     entity_id: input_select.mode
     state: night
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: guest
   action:
   - service: light.turn_on
     target:
@@ -786,6 +820,7 @@
       entity_id:
       - light.upstairs_sconces
       - light.play_room_ceiling_lights
+    data: {}
   mode: restart
 - id: '1630758732226'
   alias: notify bill if karen's HA comes back
@@ -844,7 +879,12 @@
     entity_id: input_select.mode
     from: night
     to: home
-  condition: []
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: guest
   action:
   - service: light.turn_on
     target:
@@ -863,11 +903,17 @@
     entity_id: input_boolean.goodnight
     from: 'on'
     to: 'off'
-  condition: []
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: guest
   action:
   - service: switch.turn_off
     target:
       entity_id: switch.noise_machine
+    data: {}
   - service: cover.set_cover_position
     target:
       entity_id:
@@ -901,8 +947,12 @@
       hours: 6
       minutes: 0
       seconds: 0
-      milliseconds: 0
-  condition: []
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: guest
   action:
   - service: input_select.select_option
     target:
@@ -1412,32 +1462,16 @@
   trigger:
   - platform: state
     entity_id: sensor.heat_pump_water_heater_running_state
-  condition: []
+  condition:
+  - condition: state
+    entity_id: binary_sensor.heat_pump_water_heater_running
+    state: 'on'
   action:
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: sensor.heat_pump_water_heater_running_state
-        state: Compressor Running
-      sequence:
-      - service: notify.tgrambill
-        data:
-          message: Hot water heater compressor is on, water level is {{ states('sensor.heat_pump_water_heater_available_hot_water')
-            }}%
-    - conditions:
-      - condition: state
-        entity_id: sensor.heat_pump_water_heater_running_state
-        state: Compressor and Element On
-      sequence:
-      - service: notify.tgrambill
-        data:
-          message: Water heater element is on, water level is {{ states('sensor.heat_pump_water_heater_available_hot_water')
-            }}%
-    default:
-    - service: notify.tgrambill
-      data:
-        message: '{{ states(''sensor.heat_pump_water_heater_available_hot_water'')
-          }}% hot water available. Water heater is off'
+  - service: notify.tgrambill
+    data:
+      message: 'Hot water heater state is: {{ states(''sensor.heat_pump_water_heater_running_state'')
+        }}, water level is {{ states(''sensor.heat_pump_water_heater_available_hot_water'')
+        }}%'
   mode: single
 - id: '1641738167438'
   alias: color light from hot water level
@@ -1525,7 +1559,12 @@
       hours: 0
       minutes: 0
       seconds: 5
-  condition: []
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: guest
   action:
   - choose:
     - conditions:
@@ -1658,7 +1697,12 @@
     entity_id: light.shower_flood_light
     to: 'on'
     from: 'off'
-  condition: []
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: guest
   action:
   - choose:
     - conditions:
@@ -1833,15 +1877,18 @@
   action:
   - service: notify.tgramcassie
     data:
-      message: Bill''s commute will be {{ states('sensor.commute') }} minutes
-  - service: automation.turn_off
-    data:
-      stop_actions: false
+      message: Bill''s commute will be {{ states('sensor.commute') }} minutes, he
+        will be home around {{ ((states('sensor.commute') | float * 60) + now().timestamp())
+        | timestamp_custom('%I:%M %p')}}
+  - service: input_boolean.turn_on
+    data: {}
     target:
-      entity_id: automation.notify_cassie_when_bill_leaves_work
+      entity_id: input_boolean.bill_commuting
   - service: notify.tgrambill
     data:
-      message: Bill''s commute will be {{ states('sensor.commute') }} minutes
+      message: Your commute will be {{ states('sensor.commute')}} minutes, you''ll
+        be home around {{ ((states('sensor.commute') | float * 60) + now().timestamp())
+        | timestamp_custom('%I:%M %p')}}
       data:
         inline_keyboard:
         - Update:/how-far-bill
@@ -1850,10 +1897,15 @@
       minutes: 0
       seconds: 0
       milliseconds: 0
-  - service: automation.turn_on
+  - service: input_boolean.turn_off
     data: {}
     target:
-      entity_id: automation.notify_cassie_when_bill_leaves_work
+      entity_id: input_boolean.bill_commuting
+  - service: light.turn_on
+    data:
+      color_name: white
+    target:
+      entity_id: light.tv_room_ceiling_light_1
   mode: single
 - id: '1645024798707'
   alias: guest mode on
@@ -1943,7 +1995,9 @@
   - service: telegram_bot.send_message
     data:
       target:
-      message: Bill is {{ states('sensor.commute') }} minutes from home
+      message: Bill is {{ states('sensor.commute') }} minutes from home, he''ll be
+        home around {{ ((states('sensor.commute') | float * 60) + now().timestamp())
+        | timestamp_custom('%I:%M %p')}}
       inline_keyboard:
       - Update:/how-far-bill
   mode: single
@@ -2205,6 +2259,11 @@
   - condition: state
     entity_id: input_select.mode
     state: home
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: guest
   action:
   - service: light.toggle
     data:
@@ -2227,27 +2286,6 @@
       - light.kitchen_lights
       - light.play_room_ceiling_lights
       - light.dining_room_chandelier
-  mode: single
-- id: '1648478665435'
-  alias: set thermostat low when vacation
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: climate.thermostat
-    attribute: preset_modes
-    from: vacation
-    for:
-      hours: 0
-      minutes: 5
-      seconds: 0
-  condition:
-  - condition: state
-    entity_id: input_select.mode
-    state: vacation
-  action:
-  - service: notify.tgrambill
-    data:
-      message: Thermostat is not in vacation mode
   mode: single
 - id: '1650300043608'
   alias: notify fridge too warm
@@ -2287,4 +2325,521 @@
         photo:
         - file: /tmp/picture.jpg
           caption: Kitchen Snapshot
+  mode: single
+- id: '1651586804531'
+  alias: notify water heater usage
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.heat_pump_water_heater_running
+    to: 'off'
+    from: 'on'
+  condition: []
+  action:
+  - service: input_datetime.set_datetime
+    data:
+      timestamp: ' {{ now().timestamp() }} '
+    target:
+      entity_id: input_datetime.water_heater_off_time
+  - wait_for_trigger:
+    - platform: numeric_state
+      entity_id: sensor.water_heater_btuhr
+      below: '4000'
+    timeout: 00:05:00
+  - service: input_number.set_value
+    data:
+      value: '{{ (( (states(''sensor.water_heater_btu_total'') | float) - (states(''input_number.water_heater_start_btu'')
+        | float)) / (8.33 * (state_attr(''water_heater.heat_pump_water_heater'',''temperature'')
+        | float - states(''input_number.groundwater_temperature'') | float))) | round(1)
+        }}'
+    target:
+      entity_id: input_number.water_heater_last_gallons_regenerated
+  - service: input_number.set_value
+    data:
+      value: ' {{ states(''input_number.hot_water_usage'') | round(1) + states(''input_number.water_heater_last_gallons_regenerated'')
+        | round(1) }} '
+    target:
+      entity_id: input_number.hot_water_usage
+  - service: notify.tgrambill
+    data:
+      data:
+        inline_keyboard:
+        - Bill Shower:/billshower {{ states('input_number.water_heater_last_gallons_regenerated')
+          }}, Cassie shower:/cassieshower {{ states('input_number.water_heater_last_gallons_regenerated')
+          }}
+        - 'Kids Bath:/kidsbath {{ states(''input_number.water_heater_last_gallons_regenerated'')
+          }}, Other:/otherwater {{ states(''input_number.water_heater_last_gallons_regenerated'')
+          }} '
+      message: Water heater ran for {{ ((state_attr('input_datetime.water_heater_off_time',
+        'timestamp')  - state_attr('input_datetime.water_heater_on_time', 'timestamp'))
+        / 3600) | round(1)  }} hours, water regenerated was {{ states('input_number.water_heater_last_gallons_regenerated')
+        }} gallons, and cost was ${{ (( (states('sensor.water_heater_energy') | float)
+        - (states('input_number.water_heater_start_energy') | float)) * (states('sensor.electricity_cost')
+        | float)) | round(2) }}
+  mode: single
+- id: '1651635795997'
+  alias: save previous water heater usage
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.heat_pump_water_heater_running
+    to: 'on'
+    from: 'off'
+  condition: []
+  action:
+  - service: input_datetime.set_datetime
+    data:
+      timestamp: ' {{ now().timestamp() }} '
+    target:
+      entity_id: input_datetime.water_heater_on_time
+  - service: input_number.set_value
+    data:
+      value: '{{ states(''sensor.water_heater_energy'') | float }}'
+    target:
+      entity_id: input_number.water_heater_start_energy
+  - service: input_number.set_value
+    data:
+      value: '{{ states(''sensor.water_heater_btu_total'') | float }}'
+    target:
+      entity_id: input_number.water_heater_start_btu
+  mode: single
+- id: '1651854030346'
+  alias: other water usage
+  description: ''
+  trigger:
+  - platform: event
+    event_type: telegram_callback
+    event_data:
+      command: /otherwater
+  - platform: event
+    event_type: telegram_text
+    event_data:
+      text: otherwater
+  - platform: event
+    event_type: telegram_command
+    event_data:
+      command: /otherwater
+  condition: []
+  action:
+  - service: input_number.set_value
+    data:
+      value: ' {{ states(''input_number.other_water_usage'') | float + ( trigger.event.data.args
+        | first | float ) }} '
+    target:
+      entity_id: input_number.other_water_usage
+  - service: notify.tgrambill
+    data:
+      message: 'Added {{ trigger.event.data.args | first }} to other water usage,
+        total is now {{ states(''input_number.other_water_usage'') }}
+
+        '
+  mode: single
+- id: '1651854180230'
+  alias: Cassie shower usage
+  description: ''
+  trigger:
+  - platform: event
+    event_type: telegram_callback
+    event_data:
+      command: /cassieshower
+  - platform: event
+    event_type: telegram_text
+    event_data:
+      text: cassieshower
+  - platform: event
+    event_type: telegram_command
+    event_data:
+      command: /cassieshower
+  condition: []
+  action:
+  - service: input_number.set_value
+    data:
+      value: ' {{ (states(''input_number.cassie_shower_usage'') | float) + ( trigger.event.data.args
+        | first | float) }} '
+    target:
+      entity_id: input_number.cassie_shower_usage
+  - service: notify.tgrambill
+    data:
+      message: 'Added {{ trigger.event.data.args | first }} to Cassie shower usage,
+        total is now {{ states(''input_number.cassie_shower_usage'') }}
+
+        '
+  mode: single
+- id: '1651854240652'
+  alias: kid bath usage
+  description: ''
+  trigger:
+  - platform: event
+    event_type: telegram_callback
+    event_data:
+      command: /kidsbath
+  - platform: event
+    event_type: telegram_text
+    event_data:
+      text: kidsbath
+  - platform: event
+    event_type: telegram_command
+    event_data:
+      command: /kidsbath
+  condition: []
+  action:
+  - service: input_number.set_value
+    data:
+      value: ' {{ states(''input_number.kids_bath_usage'') | float + ( trigger.event.data.args
+        | first ) | float }} '
+    target:
+      entity_id: input_number.kids_bath_usage
+  - service: notify.tgrambill
+    data:
+      message: 'Added {{ trigger.event.data.args | first }} to kids bath usage, total
+        is now {{ states(''input_number.kids_bath_usage'') }}
+
+        '
+  mode: single
+- id: '1651925100760'
+  alias: dummy test
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+    offset: 0
+  condition:
+  - condition: time
+    before: 00:00:00
+    after: 00:00:00
+  action:
+  - service: notify.tgrambill
+    data:
+      data:
+        inline_keyboard:
+        - Bill Shower:/testb {{ states('input_number.water_heater_last_gallons_regenerated')
+          | float }}, Cassie shower:/testc {{ states('input_number.water_heater_last_gallons_regenerated')
+          }}
+        - 'Kids Bath:/testk {{ states(''input_number.water_heater_last_gallons_regenerated'')
+          }}, Other:/testo {{ states(''input_number.water_heater_last_gallons_regenerated'')
+          }} '
+      message: 'Dummy message: water heater ran for {{ ((state_attr(''input_datetime.water_heater_off_time'',
+        ''timestamp'')  - state_attr(''input_datetime.water_heater_on_time'', ''timestamp''))
+        / 3600) | round(1)  }} hours, water regenerated was {{ states(''input_number.water_heater_last_gallons_regenerated'')
+        }} gallons, and cost was ${{ ((state_attr(''input_datetime.water_heater_off_time'',
+        ''timestamp'')  - state_attr(''input_datetime.water_heater_on_time'', ''timestamp''))
+        * 0.035 / 3600) | round(2)  }} '
+  mode: single
+- id: '1651946779402'
+  alias: dummy test shower usage
+  description: ''
+  trigger:
+  - platform: event
+    event_type: telegram_callback
+    event_data:
+      command: /testb
+  - platform: event
+    event_type: telegram_text
+    event_data:
+      text: testb
+  - platform: event
+    event_type: telegram_command
+    event_data:
+      command: /testb
+  condition: []
+  action:
+  - service: telegram_bot.answer_callback_query
+    data:
+      message: arg was {{ trigger.event.data.args | first }}
+      callback_query_id: '{{ trigger.event.data.id }}'
+  - service: input_number.set_value
+    data:
+      value: '{{ trigger.event.data.args | first }}'
+    target:
+      entity_id: input_number.water_heater_last_usage
+  mode: single
+- id: '1651951949495'
+  alias: bill shower usage
+  description: ''
+  trigger:
+  - platform: event
+    event_type: telegram_callback
+    event_data:
+      command: /billshower
+  - platform: event
+    event_type: telegram_text
+    event_data:
+      text: billshower
+  - platform: event
+    event_type: telegram_command
+    event_data:
+      command: /billshower
+  condition: []
+  action:
+  - service: input_number.set_value
+    data:
+      value: ' {{ (states(''input_number.bill_shower_usage'') | float) + ( trigger.event.data.args
+        | first) | float }} '
+    target:
+      entity_id: input_number.bill_shower_usage
+  - service: notify.tgrambill
+    data:
+      message: 'Added {{ trigger.event.data.args | first }} to Bill shower usage,
+        total is now {{ states(''input_number.bill_shower_usage'') }}
+
+        '
+  mode: single
+- id: '1652107045459'
+  alias: color light from bill commute
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.commute
+  condition:
+  - condition: state
+    entity_id: input_boolean.bill_commuting
+    state: 'on'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: guest
+  action:
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.commute
+        above: '30'
+      sequence:
+      - service: light.turn_on
+        data:
+          color_name: red
+          brightness: 255
+        target:
+          entity_id: light.tv_room_ceiling_light_1
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.commute
+        above: '15'
+        below: '30'
+      sequence:
+      - service: light.turn_on
+        data:
+          color_name: darkgoldenrod
+          brightness_pct: 100
+        target:
+          entity_id: light.tv_room_ceiling_light_1
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.commute
+        below: '15'
+      sequence:
+      - service: light.turn_on
+        data:
+          color_name: green
+          brightness_pct: 100
+        target:
+          entity_id: light.tv_room_ceiling_light_1
+    default: []
+  mode: single
+- id: '1652210127343'
+  alias: dummy message
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: 0
+  condition:
+  - condition: time
+    before: 00:00:00
+  action:
+  - service: notify.tgrambill
+    data:
+      message: dd
+  mode: single
+- id: '1652450052592'
+  alias: notify bill of his commute
+  description: ''
+  trigger:
+  - platform: time
+    at: '15:40:00'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.commute
+    above: '20'
+  - condition: time
+    before: 00:00:00
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    after: 00:00:00
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: guest
+  action:
+  - service: notify.tgrambill
+    data:
+      message: 'Your commute will be {{ states(''sensor.commute'') }} minutes, you
+        will get home around {{ (as_timestamp(today_at(''16:10'')) + (states(''sensor.commute'')
+        | float * 60)) | timestamp_custom(''%I:%M %p'') }}
+
+        '
+  mode: single
+- id: '1652573823653'
+  alias: turn off vacation mode at certain time
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.when_home
+  condition: []
+  action:
+  - service: input_select.select_option
+    data:
+      option: away
+    target:
+      entity_id: input_select.mode
+  - service: water_heater.set_operation_mode
+    data:
+      operation_mode: Eco
+  mode: single
+- id: '1652575375711'
+  alias: set vacation at certain time
+  description: ''
+  trigger:
+  - platform: time
+    at: input_datetime.start_away_time
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: home
+  action:
+  - service: input_select.select_option
+    data:
+      option: vacation
+    target:
+      entity_id: input_select.mode
+  - service: notify.tgrambill
+    data:
+      message: set vacation mode
+  mode: single
+- id: '1652582264712'
+  alias: notify mitch door is open
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - cover.shop_door
+    to: 'on'
+  condition: []
+  action:
+  - service: ifttt.trigger
+    data:
+      event: notify_mitch
+      value1: Shop garage door is open
+  mode: single
+- id: '1653323503327'
+  alias: vacation settings on mode change
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_select.mode
+    to: vacation
+  condition: []
+  action:
+  - service: ecobee.create_vacation
+    data:
+      entity_id: climate.thermostat
+      vacation_name: HAvacation
+      cool_temp: 80
+      heat_temp: 60
+  - service: notify.tgrambill
+    data:
+      message: set vacation mode. set thermostat to vacation mode.
+  mode: single
+- id: '1653323607399'
+  alias: end vacation mode
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_select.mode
+    from: vacation
+    to: home
+  condition: []
+  action:
+  - service: ecobee.delete_vacation
+    data:
+      entity_id: climate.thermostat
+      vacation_name: HAvacation
+  - service: ecobee.resume_program
+    data:
+      entity_id: climate.thermostat
+  mode: single
+- id: '1653846882048'
+  alias: 'reload emporia minute sensors '
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.water_heater_minute_usage
+    to: Unavailable
+  condition: []
+  action:
+  - service: homeassistant.reload_config_entry
+    data: {}
+    target:
+      entity_id: sensor.water_heater_minute_usage
+  mode: single
+- id: '1653852289482'
+  alias: new notify water heater usage test
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.heat_pump_water_heater_running
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+  - service: notify.tgrambill
+    data:
+      message: calculated {{ (( (states('sensor.water_heater_btu_total') | float)
+        - (states('input_number.water_heater_start_btu') | float)) / (8.33 * (state_attr('water_heater.heat_pump_water_heater','temperature')
+        | float - states('input_number.groundwater_temperature') | float))) | round(1)
+        }} gallons the other way
+  - service: notify.tgrambill
+    data:
+      message: calculated {{ ( (states('sensor.water_heater_energy') | float) - (states('input_number.water_heater_start_energy')
+        | float)) * (states('sensor.electricity_cost') | float) | round(2) }} dollars
+        the other way
+  mode: single
+- id: '1653965203715'
+  alias: notify high humidity in bathroom
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.bathroom_climate_humidity
+    above: '70'
+  condition: []
+  action:
+  - service: notify.tgrambill
+    data:
+      message: high humidity in the bathroom
+  mode: single
+- id: '1653965276068'
+  alias: notify low humidity in bathroom
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.bathroom_climate_humidity
+    below: '70'
+  condition: []
+  action:
+  - service: notify.tgrambill
+    data:
+      message: humidity dropped below 70%
   mode: single

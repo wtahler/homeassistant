@@ -121,6 +121,7 @@
     - light.driveway_lights
     - light.entry_lamps
     - light.downstairs_sconces
+    - light.upstairs_sconces
     - light.bedroom_sconces
     - light.entry_chandelier
     - light.fireplace_lights
