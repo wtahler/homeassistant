@@ -9,11 +9,11 @@
       device_class: "power"
       state_class: measurement
       state: >
-        {% if states('sensor.water_heater_minute_usage') | float > 4600 %}
+        {% if ((states('sensor.heat_pump_water_heater_running_state') is search('Compressor',true)) and (states('sensor.heat_pump_water_heater_running_state') is search('Element', true))) %}
           19554
-        {% elif states('sensor.water_heater_minute_usage') | float > 4000 %}
+        {% elif (states('sensor.heat_pump_water_heater_running_state') is search('Element', true)) %}
           15354
-        {% elif states('sensor.water_heater_minute_usage') | float > 200 %}
+        {% elif (states('sensor.heat_pump_water_heater_running_state') is search('Compressor',true)) %}
           4200
         {% else %}
           0

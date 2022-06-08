@@ -770,9 +770,10 @@
   - service: notify.tgrambill
     data_template:
       title: '*Information*'
-      message: An update for {{ trigger.to_state.name }} is available. You are running
+      message: 'An update for {{ trigger.to_state.name }} is available. You are running
         {{ trigger.to_state.attributes.installed_version }}, the latest version is
-        {{ trigger.to_state.attributes.latest_version }}.
+        {{ trigger.to_state.attributes.latest_version }}. Release notes: {{ trigger.to_state.attributes.release_url
+        }}'
   initial_state: true
 - id: '1628948258302'
   alias: lights from bedroom door
@@ -2330,10 +2331,9 @@
   alias: notify water heater usage
   description: ''
   trigger:
-  - platform: state
-    entity_id: binary_sensor.heat_pump_water_heater_running
-    to: 'off'
-    from: 'on'
+  - platform: numeric_state
+    entity_id: sensor.water_heater_btuhr
+    below: '1000'
   condition: []
   action:
   - service: input_datetime.set_datetime
@@ -2341,11 +2341,6 @@
       timestamp: ' {{ now().timestamp() }} '
     target:
       entity_id: input_datetime.water_heater_off_time
-  - wait_for_trigger:
-    - platform: numeric_state
-      entity_id: sensor.water_heater_btuhr
-      below: '4000'
-    timeout: 00:05:00
   - service: input_number.set_value
     data:
       value: '{{ (( (states(''sensor.water_heater_btu_total'') | float) - (states(''input_number.water_heater_start_btu'')
@@ -2381,10 +2376,9 @@
   alias: save previous water heater usage
   description: ''
   trigger:
-  - platform: state
-    entity_id: binary_sensor.heat_pump_water_heater_running
-    to: 'on'
-    from: 'off'
+  - platform: numeric_state
+    entity_id: sensor.water_heater_btuhr
+    above: '1000'
   condition: []
   action:
   - service: input_datetime.set_datetime
@@ -2783,10 +2777,9 @@
   alias: 'reload emporia minute sensors '
   description: ''
   trigger:
-  - platform: state
-    entity_id:
-    - sensor.water_heater_minute_usage
-    to: Unavailable
+  - platform: template
+    value_template: '{{ states(''sensor.water_heater_minute_usage'') == ''unavailable''
+      }}'
   condition: []
   action:
   - service: homeassistant.reload_config_entry
@@ -2842,4 +2835,38 @@
   - service: notify.tgrambill
     data:
       message: humidity dropped below 70%
+  mode: single
+- id: '1654136075729'
+  alias: vacation mode from calendar event
+  description: ''
+  trigger:
+  - platform: calendar
+    event: start
+    offset: -0:0:0
+    entity_id: calendar.bill_schedule
+  condition: []
+  action:
+  - service: notify.tgrambill
+    data:
+      message: triggered
+  mode: single
+- id: '1654268621493'
+  alias: update bill location mqtt sensor
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - person.bill_tahler
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: wtahlerHass/entities/billlocation
+      payload_template: '{{ states(''person.bill_tahler'') }}'
+  - service: mqtt.publish
+    data:
+      topic: wtahlerHass/entities/billlocation/attributes
+      payload_template: '{{ {''latitude'': (state_attr(''person.bill_tahler'', ''latitude'')
+        | string), ''longitude'': (state_attr(''person.bill_tahler'', ''longitude'')
+        | string)} | tojson }}'
   mode: single

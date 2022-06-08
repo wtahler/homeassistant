@@ -170,6 +170,28 @@ telegram_bot:
 mqtt:
 #   broker: a7a156b1e0fb470ca73b82fe0bd2afe3.s2.eu.hivemq.cloud
   certificate: auto
+  binary_sensor:
+    - state_topic: "jtahlerhass/status"
+      payload_off: "on"
+      payload_on: "off"
+      device_class: problem
+      name: "Jim Home Assistant Status"
+    - state_topic: "kchass/status"
+      payload_off: "on"
+      payload_on: "off"
+      device_class: problem
+      name: "Karen Home Assistant Status"
+    - state_topic: "octoPrint/status"
+      payload_off: "connected"
+      payload_on: "disconnected"
+      device_class: problem
+      name: "Octoprint Problem Status"
+#  device_tracker:
+#    - name: bill location
+#      state_topic: "wtahlerHass/entities/billlocation"
+#      value_template: "{{ value_json.person.bill_tahler }}"
+#      json_attributes_topic: "wtahlerHass/entities/billlocation/attributes"
+#      json_attributes_template: "{{ {'latitude': (state_attr('person.bill_tahler', 'latitude') | string), 'longitude': (state_attr('person.bill_tahler', 'longitude') | string)} | tojson }}"
 #   port: 8883
 #   username: home_assistant
 #   password: !secret mqtt_password

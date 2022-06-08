@@ -1,21 +1,3 @@
-- platform: mqtt
-  state_topic: "jtahlerhass/status"
-  payload_off: "on"
-  payload_on: "off"
-  device_class: problem
-  name: "Jim Home Assistant Status"
-- platform: mqtt
-  state_topic: "kchass/status"
-  payload_off: "on"
-  payload_on: "off"
-  device_class: problem
-  name: "Karen Home Assistant Status"
-- platform: mqtt
-  state_topic: "octoPrint/status"
-  payload_off: "connected"
-  payload_on: "disconnected"
-  device_class: problem
-  name: "Octoprint Problem Status"
 - platform: template
   sensors:
     kitchen_motion:
