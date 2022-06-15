@@ -112,7 +112,7 @@ google_assistant:
       expose: true
     cover.big_bedroom_curtains:
       expose: true
-    cover.tv_room_curtains:
+    cover.tv_curtains:
       expose: true
     switch.night_switch:
       expose: true
