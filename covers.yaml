@@ -54,3 +54,30 @@
           deviceId: !secret switchbot_small_bedroom_deviceId
           command: "setPosition"
           parameter: "0,ff,{{position}}"
+    tv_curtains:
+      friendly_name: "TV Room Curtains"
+      position_template: "{{ states('sensor.tv_curtain_position') }}"
+      open_cover:
+        service: rest_command.switchbot_device_command
+        data:
+          deviceId: !secret switchbot_tv_curtain_deviceId
+          command: "turnOn"
+          parameter: ""
+      close_cover:
+        service: rest_command.switchbot_device_command
+        data:
+          deviceId: !secret switchbot_tv_curtain_deviceId
+          command: "turnOff"
+          parameter: ""
+      stop_cover:
+        service: rest_command.switchbot_device_command
+        data:
+          deviceId: !secret switchbot_tv_curtain_deviceId
+          command: "turnOff"
+          parameter: ""
+      set_cover_position:
+        service: rest_command.switchbot_device_command
+        data:
+          deviceId: !secret switchbot_tv_curtain_deviceId
+          command: "setPosition"
+          parameter: "0,ff,{{position}}"
