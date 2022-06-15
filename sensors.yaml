@@ -156,7 +156,7 @@
     - slidePosition
     
  - platform: rest
-  name: "TV Room Curtain Position"
+  name: "TV Curtain Position"
   resource: !secret switchbot_tv_curtain_status_url
   method: GET
   scan_interval: 600
