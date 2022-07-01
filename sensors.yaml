@@ -155,7 +155,7 @@
     - moving
     - slidePosition
     
- - platform: rest
+- platform: rest
   name: "TV Curtain Position"
   resource: !secret switchbot_tv_curtain_status_url
   method: GET

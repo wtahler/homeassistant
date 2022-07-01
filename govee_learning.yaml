@@ -3,3 +3,8 @@
   get_brightness_max: 100
   before_set_brightness_turn_on: false
   config_offline_is_off: false
+0D:15:A4:C1:38:C8:7A:25:
+  set_brightness_max: 100
+  get_brightness_max: 100
+  before_set_brightness_turn_on: false
+  config_offline_is_off: false

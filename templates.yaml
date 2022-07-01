@@ -4,6 +4,11 @@
       state: >
         {{ states('counter.camper_heat_runtime') | float / 12 / 60 }}
 
+    - name: max temp delta
+      unit_of_measurement: "°F"
+      state_class: 'measurement'
+      state: '0'
+
     - name: water heater btuhr
       unit_of_measurement: Btu/hr
       device_class: "power"

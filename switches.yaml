@@ -28,29 +28,29 @@
   turn_off:
     service: shell_command.turn_off_unraid
 
-- platform: mqtt
-  name: "Bill Reboot"
-  payload_off: "off"
-  payload_on: "on"
-  state_topic: "wtahlerhass/reboot"
-  optimistic: true
-  command_topic: "wtahlerhass/reboot"
+# - platform: mqtt
+#   name: "Bill Reboot"
+#   payload_off: "off"
+#   payload_on: "on"
+#   state_topic: "wtahlerhass/reboot"
+#   optimistic: true
+#   command_topic: "wtahlerhass/reboot"
 
-- platform: mqtt
-  name: "Jim Reboot"
-  payload_off: "off"
-  payload_on: "on"
-  command_topic: "jtahlerhass/reboot"
-  optimistic: true
-  state_topic: "jtahlerhass/reboot"
+# - platform: mqtt
+#   name: "Jim Reboot"
+#   payload_off: "off"
+#   payload_on: "on"
+#   command_topic: "jtahlerhass/reboot"
+#   optimistic: true
+#   state_topic: "jtahlerhass/reboot"
 
-- platform: mqtt
-  name: "Karen Reboot"
-  payload_off: "off"
-  payload_on: "on"
-  optimistic: true
-  command_topic: "kchass/reboot"
-  state_topic: "kchass/reboot"
+# - platform: mqtt
+#   name: "Karen Reboot"
+#   payload_off: "off"
+#   payload_on: "on"
+#   optimistic: true
+#   command_topic: "kchass/reboot"
+#   state_topic: "kchass/reboot"
 
 - platform: template
   switches:

@@ -1,0 +1,45 @@
+certificate: auto
+binary_sensor:
+  - state_topic: "jtahlerhass/status"
+    payload_off: "on"
+    payload_on: "off"
+    device_class: problem
+    name: "Jim Home Assistant Status"
+  - state_topic: "kchass/status"
+    payload_off: "on"
+    payload_on: "off"
+    device_class: problem
+    name: "Karen Home Assistant Status"
+  - state_topic: "octoPrint/status"
+    payload_off: "connected"
+    payload_on: "disconnected"
+    device_class: problem
+    name: "Octoprint Problem Status"
+switch:
+  - name: "Bill Reboot"
+    payload_off: "off"
+    payload_on: "on"
+    state_topic: "wtahlerhass/reboot"
+    optimistic: true
+    command_topic: "wtahlerhass/reboot"
+
+  - name: "Jim Reboot"
+    payload_off: "off"
+    payload_on: "on"
+    command_topic: "jtahlerhass/reboot"
+    optimistic: true
+    state_topic: "jtahlerhass/reboot"
+
+  - name: "Karen Reboot"
+    payload_off: "off"
+    payload_on: "on"
+    optimistic: true
+    command_topic: "kchass/reboot"
+    state_topic: "kchass/reboot"
+
+button:
+  - command_topic: "octoPrint/control/shutdown"
+    availability_topic: "octoPrint/status"
+    payload_available: "connected"
+    payload_not_available: "disconnected"
+    name: Shutdown Octoprint

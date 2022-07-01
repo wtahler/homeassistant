@@ -51,10 +51,6 @@
   entity_id: switch.shop_driveway_lights
   
 - platform: switch
-  name: Kitchen Light Strip
-  entity_id: switch.kitchen_light_strip
-  
-- platform: switch
   name: Kitchen Cabinet Lights
   entity_id: switch.kitchen_cabinet_lights
 

@@ -309,6 +309,10 @@
     target:
       entity_id: switch.fluxer
     data: {}
+  - service: cover.close_cover
+    data: {}
+    target:
+      entity_id: cover.tv_curtains
   mode: single
 - id: '1600286895079'
   alias: 1 goodnight nfc tag
@@ -1507,7 +1511,7 @@
           entity_id:
           - light.shower_flood_light
         data:
-          color_temp: 250
+          color_name: white
     - conditions:
       - condition: numeric_state
         entity_id: sensor.heat_pump_water_heater_available_hot_water
@@ -1649,6 +1653,8 @@
           entity_id:
           - light.shower_flood_light
           - light.toilet_flood_light
+        data:
+          color_name: white
     - conditions:
       - condition: state
         entity_id: light.vanity_lights
@@ -1659,6 +1665,7 @@
           entity_id:
           - light.shower_flood_light
           - light.toilet_flood_light
+        data: {}
     default: []
   mode: single
 - id: '1642318744044'
@@ -2334,6 +2341,9 @@
   - platform: numeric_state
     entity_id: sensor.water_heater_btuhr
     below: '1000'
+  - platform: template
+    value_template: '{{ states(''sensor.water_heater_minute_usage'') == ''unavailable''
+      }}'
   condition: []
   action:
   - service: input_datetime.set_datetime
@@ -2630,6 +2640,17 @@
           brightness_pct: 100
         target:
           entity_id: light.tv_room_ceiling_light_1
+      - wait_for_trigger:
+        - platform: state
+          entity_id:
+          - person.bill_tahler
+          to: home
+        timeout: 00:30:00
+      - service: light.turn_on
+        data:
+          color_name: white
+        target:
+          entity_id: light.tv_room_ceiling_light_1
     default: []
   mode: single
 - id: '1652210127343'
@@ -2869,4 +2890,93 @@
       payload_template: '{{ {''latitude'': (state_attr(''person.bill_tahler'', ''latitude'')
         | string), ''longitude'': (state_attr(''person.bill_tahler'', ''longitude'')
         | string)} | tojson }}'
+  mode: single
+- id: '1655438431951'
+  alias: harmony hub off turn off tv mode
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - remote.harmony_hub
+    to: 'off'
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: guest
+  action:
+  - service: cover.open_cover
+    data: {}
+    target:
+      entity_id: cover.tv_curtains
+  - service: light.turn_on
+    data:
+      color_name: white
+    target:
+      entity_id: light.tv_room_ceiling_light_2
+  mode: single
+- id: '1655438572466'
+  alias: garage lights auto from doors
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.laundry_garage_door_sensor
+    to: 'on'
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: guest
+  action:
+  - service: light.turn_on
+    data: {}
+    target:
+      entity_id: light.garage_lights
+  - wait_for_trigger:
+    - platform: state
+      entity_id:
+      - binary_sensor.laundry_garage_door_sensor
+      to: 'off'
+    timeout: '20'
+  - delay:
+      hours: 0
+      minutes: 20
+      seconds: 0
+      milliseconds: 0
+  - service: light.turn_off
+    data: {}
+    target:
+      entity_id: light.garage_lights
+  mode: single
+- id: '1656598779575'
+  alias: turn on fan when upstairs is warm
+  description: ''
+  trigger:
+  - platform: template
+    value_template: '{{ states(''sensor.bedroom_temperature'')|int > (states(''sensor.play_room_temperature'')|int
+      + 1)}}'
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.mode
+      state: guest
+    - condition: state
+      entity_id: fan.ceiling_fan
+      state: 'on'
+  action:
+  - service: fan.turn_on
+    data: {}
+    target:
+      entity_id: fan.ceiling_fan
+  - wait_template: '{{ states(''sensor.bedroom_temperature'')|int < (states(''sensor.play_room_temperature'')|int
+      + 1)}}'
+    continue_on_timeout: true
+  - service: fan.turn_off
+    data: {}
+    target:
+      entity_id: fan.ceiling_fan
   mode: single
